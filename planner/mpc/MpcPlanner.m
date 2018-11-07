@@ -15,9 +15,9 @@
 % @Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 
-function data = MpcPlanner(model)
+function MpcPlanner()
     %% MPC parameters information
-    load(model);
+    load('model.mat');
     % MPC Design at the Nominal Operating Point
     % Design a model predictive controller that can make the ego car maintain
     % a desired velocity and stay in the middle of the center lane.
@@ -126,5 +126,5 @@ function data = MpcPlanner(model)
     end
     
     data = 'result.mat';
-    save(data)
+    save(data);
 end

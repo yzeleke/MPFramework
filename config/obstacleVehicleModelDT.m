@@ -14,30 +14,7 @@ function [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT(Ts,x,u)
 
 %#codegen
 
-% Generate continuous-time model.
-% carLength = 5;
-% theta = x(3);
-% V = x(4);
-% delta = u(2);
-% Ac = [ 0, 0, -V*sin(theta), cos(theta);
-%        0, 0,  V*cos(theta), sin(theta);
-%        0, 0, 0,             tan(delta)/carLength;
-%        0, 0, 0,             0];
-% Bc = [0  , 0;
-%       0  , 0;
-%       0  , (V*(tan(delta)^2 + 1))/carLength;
-%       0.5, 0];
-% Cc = eye(4);
-% Dc = zeros(4,2);
 
-% dot{x} = [x, y, \theta, \phi]'
-
-% carLength = 5;
-% theta = x(3);
-% phi = x(4);
-% V= u(1);
-
-%delta  = tan(delta)/carLength+(V*(tan(delta)^2 + 1))/carLength
 
 Ac = [ 0, 0, 1,0,0,0;
        0, 0, 0,1,0,0;

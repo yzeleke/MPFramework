@@ -17,7 +17,7 @@
 
 function run(Vmodel,Planner,Environment,options,SimTime)    
 
-    %close all windows but do not clear workspace otherwise we loose all params.
+    %close all windows but do notclear workspace.
     close all;
 
     %maybe we can have function like init() to load database;
@@ -28,6 +28,7 @@ function run(Vmodel,Planner,Environment,options,SimTime)
         case 'pointmass' %can you look up a way to use both 'pointmass' and 'Pointmass'
                 Ts = 0.02; %this is the sampling time....maybe we can put this on run params?
                 pointmass_config(Ts);
+                load('pointmass_init');
                 
         otherwise
             disp('Vehicle model not found in database')

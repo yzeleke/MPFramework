@@ -17,7 +17,7 @@ if detection
         % if the ego car is already in the adjacent lane, use the safety
         % zone as the constraint.
         if (egoY>obstacle.rlSafeY)
-            min_y = obstacle.rlSafeY;
+            min_y = obstacle.rlSafeY+2;
             max_y = upper_bound;
         elseif (egoY<obstacle.rrSafeY)
             min_y = lower_bound;
@@ -27,7 +27,7 @@ if detection
             % safe zone corner for left passing.
            
             max_y = upper_bound;
-            min_y= slope*(egoX)-slope*obstacle.rlSafeX+obstacle.rlSafeY;
+            min_y= slope*(egoX)-slope*obstacle.rlSafeX+obstacle.rlSafeY + 2; %just add extra space of 2 'safety'
         end
     % If the ego car is parallel to the obstacle, and passing to the left
     % side

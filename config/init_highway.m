@@ -1,30 +1,19 @@
 %%
 %--------------------------------------------------------------------------
-%										pointmass_config.m
+%										init.m
 %--------------------------------------------------------------------------
 %**************************************************************************
-% @ Author                   : 		Yegeta Zeleke                                            	        
-% @file_name				 : 		 pointmass_config.m														  
+% @ Author                   : 		Yegeta Zeleke and Harsh Bhakta                                           	        
+% @file_name				 : 		 init_highway.m														  
 % @ Date                     : 	   11/02/18                                                     
-% @ Discription				 :      Vehicle model and configuratin file
-%                                   point mass model
+% @ Discription				 :    Initializes environment for simulation
 %
-% @ Usage					:pointmass_config(0.02) for 0.02s sampling time    																						  
+% @ Usage					:   init_highway(varargin), i,e, init('highway','len',3...)    																						  
 % @Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 
-function pointmass_config(Ts)
-    %% inital conditions
-    x0 = [5; 0; 10; 0;0;0]; 
-
-    %set target state
-    goal = [80; 0; 0; 0;0;0]; 
-
-    u0= [2;-2];
-
-    ref = [0,2,0,0,0,0];
-
-
+function init_highway(options)
+    
     %% Road and Obstacle Information
     % In this example, assume that:
     %
@@ -34,8 +23,8 @@ function pointmass_config(Ts)
     % * Without losing generality, the ego car passes an obstacle only from the
     % left (fast) lane.
     %
-    lanes = 3;
-    laneWidth = 4;
+    lanes = 6;
+    laneWidth = 2;
 
 
     %% 
@@ -62,21 +51,12 @@ function pointmass_config(Ts)
     obstacle.safeDistanceY = obstacle.Width;
     obstacle = obstacleGenerateObstacleGeometryInfo(obstacle);
 
-    %%
-
-    %initial input 
-    %input takes speed and steering in that order
-    u0 = [2; 2];
+    if ~isempty(options)
+        %change the stuff here 
+    end
     
-    %Ts = 0.02;
-    
-    [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT(Ts,x0,u0);
-    plant = ss(Ad,Bd,Cd,Dd,'Ts',Ts);
-    plant.InputName = {'u_x','u_d'};
-    plant.StateName = {'X','Y','V_x','V_y','a_x','a_y'};
-    plant.OutputName = plant.StateName;
-    
-    filename = 'model.mat';
+    filename = 'environment.mat';
     save(filename)
-
+    
+    
 end
