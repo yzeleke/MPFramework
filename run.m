@@ -49,5 +49,8 @@ function run(Vmodel,Planner,Environment,options,SimTime)
     
     %plot results....we might need a better plotting function setup
     plotResult();
+    
+    %comment this line if you choose to save the data for later use
+    delete *.mat
 
 end

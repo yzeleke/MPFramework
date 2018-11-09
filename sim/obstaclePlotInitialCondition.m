@@ -28,7 +28,7 @@ function f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLe
   
 
     % Reset the axis.
-    axis([0 100 0 laneWidth*lanes+5]);%-laneWidth*lanes/2 laneWidth*lanes/2]);
+    axis([0 100 0 laneWidth*lanes]);%-laneWidth*lanes/2 laneWidth*lanes/2]);
     xlabel('X');
     ylabel('Y');
     title('Obstacle Avoidance Maneuver');

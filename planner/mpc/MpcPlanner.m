@@ -16,7 +16,9 @@
 %***************************************************************************
 
 function MpcPlanner()
-    %% MPC parameters information
+    % Load environment
+    load('environment.mat');
+    %load vehilce model
     load('model.mat');
     % MPC Design at the Nominal Operating Point
     % Design a model predictive controller that can make the ego car maintain
@@ -33,41 +35,25 @@ function MpcPlanner()
     % To prevent the car from experiencing unrealstic speed, set constraints on
     % speed
 
-    const_X_max = Inf;
-    const_X_min = 0;
+ 
 
-    const_Y_max = 10;
-    const_Y_min = -10;
+    mpcobj.OutputVariables(1).Max = upper_bound_x;
+    mpcobj.OutputVariables(1).Min = lower_bound_x;
 
-    const_Vx_max = 100;
-    const_Vx_min = 0;
+    mpcobj.OutputVariables(2).Max = upper_bound_y;
+    mpcobj.OutputVariables(2).Min = lower_bound_y;
 
-    const_Vy_max = 100;
-    const_Vy_min = -100;
+    mpcobj.OutputVariables(3).Max = upper_bound_speed_x;
+    mpcobj.OutputVariables(3).Min = lower_bound_speed_x;
 
-    const_ax_max = 2;
-    const_ax_min = -2;
+    mpcobj.OutputVariables(4).Max = upper_bound_speed_y;
+    mpcobj.OutputVariables(4).Min = lower_bound_speed_y;
 
-    const_ay_max = 2;
-    const_ay_min = -2;
+    mpcobj.OutputVariables(5).Max = upper_bound_acc_x;
+    mpcobj.OutputVariables(5).Min = lower_bound_acc_x;
 
-    mpcobj.OutputVariables(1).Max = const_X_max;
-    mpcobj.OutputVariables(1).Min = const_X_min;
-
-    mpcobj.OutputVariables(2).Max = const_Y_max;
-    mpcobj.OutputVariables(2).Min = const_Y_min;
-
-    mpcobj.OutputVariables(3).Max = const_Vx_max;
-    mpcobj.OutputVariables(3).Min = const_Vx_min;
-
-    mpcobj.OutputVariables(4).Max = const_Vy_max;
-    mpcobj.OutputVariables(4).Min = const_Vy_min;
-
-    mpcobj.OutputVariables(5).Max = const_ax_max;
-    mpcobj.OutputVariables(5).Min = const_ax_min;
-
-    mpcobj.OutputVariables(6).Max = const_ay_max;
-    mpcobj.OutputVariables(6).Min = const_ay_min;
+    mpcobj.OutputVariables(6).Max = upper_bound_acc_y;
+    mpcobj.OutputVariables(6).Min = lower_bound_acc_y;
 
 
 
@@ -87,8 +73,8 @@ function MpcPlanner()
     mpcobj.Weights.ManipulatedVariables = [0 0];
 
     %%
-    yMPCMOVE = [];
-    uMPCMOVE = [];
+    ydata = [];
+    udata = [];
 
     Tsim = 10;
 
@@ -108,12 +94,14 @@ function MpcPlanner()
         y = Cd * x + Dd * u;
 
 
-        yMPCMOVE = [yMPCMOVE y];
+        ydata = [ydata y];
         % Update constraints.
         [Min_y, Max_y]= ouputConstraint(x,1,obstacle);
+        
+       
 
-        options.OutputMin =  [const_X_min;Min_y;const_Vx_min;const_Vy_min;const_ax_min;const_ay_min]';
-        options.OutputMax =  [const_X_max;Max_y;const_Vx_max;const_Vy_max;const_ax_max;const_ay_max]';
+        options.OutputMin =  [lower_bound_x;Min_y;lower_bound_speed_x;lower_bound_speed_y;lower_bound_acc_x;lower_bound_acc_y]';
+        options.OutputMax =  [upper_bound_x;Max_y;upper_bound_speed_x;upper_bound_speed_y;upper_bound_acc_x;upper_bound_acc_y]';
 
 
         %mpcobj.OutputVariables(2).Max = Max_y;
@@ -122,7 +110,10 @@ function MpcPlanner()
         u = mpcmove(mpcobj,xmpc,y,ref,[],options);
         % Update and store plant state.
         x = plant.A*x + plant.B*u;
-        uMPCMOVE = [uMPCMOVE u];
+        
+        %update obstacle location if obstacle is moving
+        % obstacle = update_Obstacle(obstacle);
+        udata = [udata u];
     end
     
     data = 'result.mat';

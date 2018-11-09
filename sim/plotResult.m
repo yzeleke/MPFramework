@@ -25,7 +25,7 @@ function plotResult()
     figure;
 
     
-    f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);
+    %f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);
 
 %     subplot(2,2,1)
 %     plot(t,yMPCMOVE(2,:),'--*');
@@ -48,10 +48,10 @@ function plotResult()
     hFig = figure(1);
     figure(1);
 
-    for i = 1:speed: length(yMPCMOVE)    % n : length(t)
+    for i = 1:speed: length(ydata)    % n : length(t)
 
     % drawing code
-       x0 = [yMPCMOVE(1,i),yMPCMOVE(2,i)];
+       x0 = [ydata(1,i),ydata(2,i)];
        f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);
     % write each frame to the file
        currFrame = getframe(hFig);

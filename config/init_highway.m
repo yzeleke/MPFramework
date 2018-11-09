@@ -36,8 +36,30 @@ function init_highway(options)
 
     %% 
     % Place the obstacle |50| meters down the road.
-    obstacle.X = 40;
-    obstacle.Y = 0;
+    obstacle.X = 60;
+    obstacle.Y = 7;
+    
+    
+    
+    
+    %% state constraints
+    upper_bound_x = Inf;
+    lower_bound_x = 0;
+    
+    upper_bound_y = laneWidth*lanes;
+    lower_bound_y = 0;
+    
+    upper_bound_speed_x =70;
+    lower_bound_speed_x = 0;
+    
+    upper_bound_speed_y = 70;
+    lower_bound_speed_y= -70;
+    
+    upper_bound_acc_x = 2;
+    lower_bound_acc_x =-2;
+    
+    upper_bound_acc_y = 2;
+    lower_bound_acc_y =-2;
 
     %%
     % Create a virtual safe zone around the obstacle so that the ego car does

@@ -15,14 +15,14 @@
 
 function pointmass_config(Ts)
     %% inital conditions
-    x0 = [5; 0; 10; 0;0;0]; 
+    x0 = [0; 9; 10; 0;0;0]; 
 
     %set target state
     goal = [80; 0; 0; 0;0;0]; 
 
     u0= [2;-2];
 
-    ref = [0,2,0,0,0,0];
+    ref = [0,7,0,0,0,0];
 
 
     %% Road and Obstacle Information
@@ -34,33 +34,9 @@ function pointmass_config(Ts)
     % * Without losing generality, the ego car passes an obstacle only from the
     % left (fast) lane.
     %
-    lanes = 3;
-    laneWidth = 4;
 
 
-    %% 
-    % The obstacle in this example is a nonmoving object in the middle of the
-    % center lane with the same size as the ego car.
-    obstacle = struct;
-    obstacle.Length = 5;
-    obstacle.Width = 2;
-
-    %% 
-    % Place the obstacle |50| meters down the road.
-    obstacle.X = 40;
-    obstacle.Y = 0;
-
-    %%
-    % Create a virtual safe zone around the obstacle so that the ego car does
-    % not get too close to the obstacle when passing it. The safe zone is
-    % centered on the obstacle and has a:
-    %
-    % * Length equal to two car lengths.
-    % * Width equal to two lane widths.
-    %
-    obstacle.safeDistanceX = obstacle.Length;
-    obstacle.safeDistanceY = obstacle.Width;
-    obstacle = obstacleGenerateObstacleGeometryInfo(obstacle);
+    
 
     %%
 
