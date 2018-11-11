@@ -3,4 +3,5 @@ This repository contains a framework for simulating and deploying various motion
 
 # How to run
 eg,
-run('pointmass','MPC','highway','3s')
+ run('Dubin','MPC','Highway',[],3)
+  run('pointmass','MPC','Highway',[],3)
