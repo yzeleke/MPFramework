@@ -1,4 +1,4 @@
-function [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT(Ts,x,u)
+function [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_pointMass(Ts,x,u)
 % The ego car has rectangular shaper with a length of 5 meters and width of
 % 2 meters. The model has four states:
 %

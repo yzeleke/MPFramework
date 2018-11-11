@@ -3,6 +3,8 @@ function [min_y, max_y] = ouputConstraint(x,detection,obstacle)
 
     % Load environment
     load('environment.mat');
+    load('model.mat');
+    
     %#codegen
     egoX = x(1);
     egoY = x(2);

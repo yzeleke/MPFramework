@@ -31,7 +31,7 @@ function init(Environment,options)
         case 'Highway' %can you look up a way to use both 'pointmass' and 'Pointmass'
                 init_highway(options) 
         otherwise
-            disp('Environment not recognized!')
+            disp('Error: init()--Environment not recognized!')
     end
     
     filename = 'init.mat';

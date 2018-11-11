@@ -18,7 +18,6 @@ function plotResult()
     %% The simulation results are identical to those using mpcmove.
     load('init.mat');
     load('environment.mat');
-    
     load('result.mat');
     
     t = 0:Ts:Tsim;
@@ -39,7 +38,16 @@ function plotResult()
     %% Plot results 
     %video
     % initialize
-    vidObj = VideoWriter('passing');
+    switch model
+        case 'pointmass' %can you look up a way to use both 'pointmass' and 'Pointmass'
+              vidObj = VideoWriter('passing_pointmass');
+                
+        case 'Dubin' %can you look up a way to use both 'pointmass' and 'Pointmass'
+                 vidObj = VideoWriter('passing_Dubin');
+        otherwise
+            disp('Error: plotResult()...what file name to save video?')
+    end
+   
     vidObj.FrameRate = 60;
     open(vidObj);
     speed = 2;     % data sample speed

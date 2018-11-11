@@ -15,7 +15,22 @@
 % @Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 
-function MpcPlanner()
+
+
+%note:
+%% Adjust Weights
+    % Since there are only two manipulated variables, to achieve zero
+    % steady-state offset, you can choose only two outputs for perfect
+    % tracking. In this example, choose the Y position and velocity by setting
+    % the weights of the other two outputs (X and theta) to zero. Doing so lets
+    % the values of these other outputs float.
+    % 0.05 ? Low priority: Large tracking error acceptable
+    % 0.2 ? Below-average priority
+    % 1 ? Average priority ? the default. Use this value if nyc = 1.
+    % 5 ? Above average priority
+    % 20 ? High priority: Small tracking error desired
+
+function MpcPlanner(Tsim)
     % Load environment
     load('environment.mat');
     %load vehilce model
@@ -35,48 +50,67 @@ function MpcPlanner()
     % To prevent the car from experiencing unrealstic speed, set constraints on
     % speed
 
+    %% Chose vehicle model
+    switch model
+        case 'Dubin'
+    
+                mpcobj.OutputVariables(1).Max = upper_bound_x;
+                mpcobj.OutputVariables(1).Min = lower_bound_x;
+
+                mpcobj.OutputVariables(2).Max = upper_bound_y;
+                mpcobj.OutputVariables(2).Min = lower_bound_y;
+
+                mpcobj.OutputVariables(3).Max = upper_bound_theta;
+                mpcobj.OutputVariables(3).Min = lower_bound_theta;
+
+                mpcobj.OutputVariables(4).Max = upper_bound_phi;
+                mpcobj.OutputVariables(4).Min = lower_bound_phi;
+                
+                mpcobj.ManipulatedVariables(1).Min = lower_bound_speed;
+                mpcobj.ManipulatedVariables(1).Max = upper_bound_speed;
+                
+                mpcobj.Weights.OutputVariables = [5 5 5 0];
+                mpcobj.Weights.ManipulatedVariables = [5 0];
+
+
+        case 'pointmass'
+                mpcobj.OutputVariables(1).Max = upper_bound_x;
+                mpcobj.OutputVariables(1).Min = lower_bound_x;
+
+                mpcobj.OutputVariables(2).Max = upper_bound_y;
+                mpcobj.OutputVariables(2).Min = lower_bound_y;
+
+                mpcobj.OutputVariables(3).Max = upper_bound_speed_x;
+                mpcobj.OutputVariables(3).Min = lower_bound_speed_x;
+
+                mpcobj.OutputVariables(4).Max = upper_bound_speed_y;
+                mpcobj.OutputVariables(4).Min = lower_bound_speed_y;
+
+                mpcobj.OutputVariables(5).Max = upper_bound_acc_x;
+                mpcobj.OutputVariables(5).Min = lower_bound_acc_x;
+
+                mpcobj.OutputVariables(6).Max = upper_bound_acc_y;
+                mpcobj.OutputVariables(6).Min = lower_bound_acc_y;
+                
+                
+                mpcobj.Weights.OutputVariables = [0 5 0 0 0 0];
+                mpcobj.Weights.ManipulatedVariables = [0 0];
+
+        otherwise
+            disp('This vehicle model not implemented')
+           
+    end
  
 
-    mpcobj.OutputVariables(1).Max = upper_bound_x;
-    mpcobj.OutputVariables(1).Min = lower_bound_x;
-
-    mpcobj.OutputVariables(2).Max = upper_bound_y;
-    mpcobj.OutputVariables(2).Min = lower_bound_y;
-
-    mpcobj.OutputVariables(3).Max = upper_bound_speed_x;
-    mpcobj.OutputVariables(3).Min = lower_bound_speed_x;
-
-    mpcobj.OutputVariables(4).Max = upper_bound_speed_y;
-    mpcobj.OutputVariables(4).Min = lower_bound_speed_y;
-
-    mpcobj.OutputVariables(5).Max = upper_bound_acc_x;
-    mpcobj.OutputVariables(5).Min = lower_bound_acc_x;
-
-    mpcobj.OutputVariables(6).Max = upper_bound_acc_y;
-    mpcobj.OutputVariables(6).Min = lower_bound_acc_y;
+   
 
 
-
-    %% Adjust Weights
-    % Since there are only two manipulated variables, to achieve zero
-    % steady-state offset, you can choose only two outputs for perfect
-    % tracking. In this example, choose the Y position and velocity by setting
-    % the weights of the other two outputs (X and theta) to zero. Doing so lets
-    % the values of these other outputs float.
-    % 0.05 ? Low priority: Large tracking error acceptable
-    % 0.2 ? Below-average priority
-    % 1 ? Average priority ? the default. Use this value if nyc = 1.
-    % 5 ? Above average priority
-    % 20 ? High priority: Small tracking error desired
-
-    mpcobj.Weights.OutputVariables = [0 5 0 0 0 0];
-    mpcobj.Weights.ManipulatedVariables = [0 0];
 
     %%
     ydata = [];
     udata = [];
 
-    Tsim = 10;
+    %Tsim = 10;
 
 
 
@@ -90,7 +124,16 @@ function MpcPlanner()
     for ct = 1:round(Tsim/Ts)+1
 
          % Update and store plant output.
-        [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT(Ts,x,u);
+        %% Chose vehicle model
+        switch model
+            case 'Dubin'
+                  [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_Dubin(Ts,x,u);
+            case 'pointmass'
+                  [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_pointMass(Ts,x,u);
+            otherwise
+                disp('This vehicle model not implemented');
+        end
+        %[Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT(Ts,x,u);
         y = Cd * x + Dd * u;
 
 
@@ -99,11 +142,19 @@ function MpcPlanner()
         [Min_y, Max_y]= ouputConstraint(x,1,obstacle);
         
        
-
-        options.OutputMin =  [lower_bound_x;Min_y;lower_bound_speed_x;lower_bound_speed_y;lower_bound_acc_x;lower_bound_acc_y]';
-        options.OutputMax =  [upper_bound_x;Max_y;upper_bound_speed_x;upper_bound_speed_y;upper_bound_acc_x;upper_bound_acc_y]';
-
-
+        switch model
+            case 'Dubin'
+                  options.OutputMin =  [lower_bound_x;Min_y;lower_bound_theta;lower_bound_phi]';
+                  options.OutputMax =  [upper_bound_x;Max_y;upper_bound_theta;upper_bound_phi]';
+            case 'pointmass'
+                  options.OutputMin =  [lower_bound_x;Min_y;lower_bound_speed_x;lower_bound_speed_y;lower_bound_acc_x;lower_bound_acc_y]';
+                  options.OutputMax =  [upper_bound_x;Max_y;upper_bound_speed_x;upper_bound_speed_y;upper_bound_acc_x;upper_bound_acc_y]';
+            otherwise
+                disp('ERROR on mpcplanner(): This vehicle model not implemented to set constriants ');
+                break;
+        end
+        
+        
         %mpcobj.OutputVariables(2).Max = Max_y;
         %mpcobj.OutputVariables(2).Min = Min_y;
         % Compute control actions.
