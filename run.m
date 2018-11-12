@@ -26,11 +26,11 @@ function run(Vmodel,Planner,Environment,options,SimTime)
     init(Environment,options);
     
     %% Chose vehicle model
-    switch Vmodel
-        case 'pointmass' %can you look up a way to use both 'pointmass' and 'Pointmass'
+    switch lower(Vmodel)
+        case 'pointmass' 
                 pointmass(Ts);
                 
-        case 'Dubin' %can you look up a way to use both 'pointmass' and 'Pointmass'
+        case 'dubin' 
                 Dubin(Ts);
         otherwise
             disp('Vehicle model not found in database')
@@ -41,8 +41,8 @@ function run(Vmodel,Planner,Environment,options,SimTime)
    %% Set simulation time
     
     %% Chose vehicle model
-    switch Planner
-        case 'MPC'
+    switch lower(Planner)
+        case 'mpc'
                MpcPlanner(SimTime);
         otherwise
             disp('Vehicle model not found in database')
