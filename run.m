@@ -10,7 +10,7 @@
 %                                   user choose a planning algorithm and
 %                                   a vehicle dynamics and run simulations
 %
-% @ Usage					: run('model','planner','environment',sim_time)    																						  
+% @ Usage					: run('model','planner','environment', 'options', sim_time)    																						  
 %@Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 

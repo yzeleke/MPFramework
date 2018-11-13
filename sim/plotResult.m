@@ -4,13 +4,13 @@
 %--------------------------------------------------------------------------
 %**************************************************************************
 % @ Author                   : 		Yegeta Zeleke                                            	        
-% @file_name				 : 		 plotResult.m														  
-% @ Date                     : 	   11/02/18                                                     
-% @ Discription				 :    Plot results/ simulation
+% @file_name				 : 		plotResult.m														  
+% @ Date                     :      11/02/18                                                     
+% @ Discription				 :      Plot results/ simulation
 %
-% @ Usage					:   plotResults(data) data is the
+% @ Usage					 :      plotResults(data) data is the
 %                                   name of .mat file    																						  
-% @Revision					:  	11/5/18                                                                                      
+% @Revision					 :      11/5/18                                                                                      
 %***************************************************************************
 
 
