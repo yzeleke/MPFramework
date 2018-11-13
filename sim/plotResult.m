@@ -60,7 +60,7 @@ function plotResult()
 
     % drawing code
        x0 = [ydata(1,i),ydata(2,i)];
-       f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);
+       f = plotHighway(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);
     % write each frame to the file
        currFrame = getframe(hFig);
        writeVideo(vidObj,currFrame);
