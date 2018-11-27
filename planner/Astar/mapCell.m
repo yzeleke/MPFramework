@@ -5,6 +5,9 @@ classdef mapCell
     properties
         dx %for dijkstra
         dy %for dijkstra
+        x
+        y
+        theta
         closed
         cost2d
         cost3d
