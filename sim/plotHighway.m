@@ -1,4 +1,4 @@
-function f = obstaclePlotInitialCondition(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth)
+function f = plotHighway(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth)
     % Create figure
     f = figure(1);
 
