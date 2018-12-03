@@ -20,10 +20,10 @@ function pointmass(Ts)
    
     % inital conditions
     model = 'pointmass';
-    x0 = [5; 7; 10; 0;0;0]; 
+    x0 = [5; 7; 10; 0; 0; 0]; 
 
     %set target state
-    goal = [80; 7; 0; 0;0;0]; 
+    goal = [80; 7; 0; 0; 0; 0]; 
 
     u0= [2;-2];
 
