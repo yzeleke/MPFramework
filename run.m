@@ -44,6 +44,7 @@ function run(Vmodel,Planner,Environment,options,SimTime)
     switch lower(Planner)
         case 'mpc'
                MpcPlanner(SimTime);
+               RRTPlanner();
         otherwise
             disp('Vehicle model not found in database')
     end
