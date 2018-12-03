@@ -14,7 +14,7 @@
 %@Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 
-
+%%
 function run(Vmodel,Planner,Environment,options,SimTime)    
 
     %close all windows but do not clear workspace otherwise we loose all params.
