@@ -59,7 +59,7 @@ function AstarPlanner(startX, startY, targetX, targetY, targetTheta)
     while(isEmpty(pq) == 0)
 		current=pop(pq);
 
-        if(abs(current.x-targetX)<=1 && abs(current.y-targetY)<=1 && (abs(current.theta-targetTheta)<=5))
+        if(abs(current.x-targetX)<=1 & abs(current.y-targetY)<=1 & abs(current.theta-targetTheta)<=5)
 			disp("Reached target.");
 			current.change=PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(current))/(map.obs_dist_max-1) + fabs(current.theta)/BOT_M_ALPHA +1; 
 				
@@ -72,10 +72,40 @@ function AstarPlanner(startX, startY, targetX, targetY, targetTheta)
 			break;
         end
 
-        %TODO: need to implement getNextStates
-		next=current.getNextStates();
+        %next=current.getNextStates();
+        %begin getNextStates
+        next;
+        d=40;
+        stateCount = 1;
 
-        for i=1:1:i<next.size()
+        for alpha=-BOT_M_ALPHA: BOT_M_ALPHA+0.001 : BOT_M_ALPHA
+            beta=d*tan(alpha*PI/180)/BOT_L;
+            if(abs(beta)<0.001)
+                n.x=x+d*cos(theta*2.0*PI/Theta);
+                n.y=y+d*sin(theta*2.0*PI/Theta);
+                n.theta=theta;
+            else
+                r=BOT_L/tan(alpha*PI/180);
+                n.x=x+r*sin(theta*2.0*PI/Theta+beta)-r*sin(theta*2.0*PI/Theta);
+                n.y=y-r*cos(theta*2.0*PI/Theta+beta)+r*cos(theta*2.0*PI/Theta);
+                if(theta + beta*180/PI/Theta_Res>0)
+        			n.theta=fmod(theta + beta*180/PI/Theta_Res,Theta);
+                else
+                    n.theta=theta + beta*180/PI/Theta_Res+Theta;
+                end
+            end
+%            n.gx=n.x/Grid_Res;
+%            n.gy=n.y/Grid_Res;
+%            n.gtheta=n.theta+0.01;
+%            next.push_back(n);
+            next(stateCount) = n
+        end
+
+	% cout<<"getNextStates() called from "<<x<<","<<y<<","<<theta<<endl;
+	% for(int i=0;i<3;i++) cout<<next[i].x<<","<<next[i].y<<","<<next[i].theta<<"  "; cout<<endl;
+    %end getNextStates
+
+        for i=1:1:i<next.nElements
             if(~map.checkCollision(next(i)))
                 if(i==2)
 					next(i).cost3d=current.cost3d+5;
