@@ -3,6 +3,8 @@ function AstarPlanner()
     load('environment.mat');
     load('model.mat');
     
+    disp("hi");
+    
     startX = x0(1);
     startY = x0(2);
     targetX = goal(1);
@@ -16,7 +18,7 @@ function AstarPlanner()
     PRIORITY_OBSTACLE_NEAR = 10;
     PRIORITY_MOVEMENT = 5;
 
-    xMax = 1000;
+    xMax = 100;
     yMax = upper_bound_y;
 
      
@@ -38,6 +40,9 @@ function AstarPlanner()
         
         x=current.dx;
 		y=current.dy;
+        disp("current opject:");
+        disp(x);
+        disp(y);
         for i=-1:1:1
             for j=-1:1:1
                 if(x+i<1 || x+i>=xMax || y+j<1 || y+j>=yMax)
@@ -63,7 +68,7 @@ function AstarPlanner()
     cells(startX, startY).cost3d = 0; % 	start.cost3d=0;
  	push(pq, cells(startX, startY), 0);
     
-    previous = repmat(mapCell(10000, 0, 0), xMax, yMax);
+    %previous;% = repmat(mapCell(10000, 0, 0), xMax, yMax);
 
     while(isEmpty(pq) == 0)
 		current=pop(pq);
@@ -74,6 +79,7 @@ function AstarPlanner()
 				
             while(current.x~=start.x || current.y~=start.y || current.theta~=start.theta)
 				current.velocity=VELOCITY_MAX/current.change;
+                disp(current);
 				Dummy=previous(current.x, current.y, current.theta);
 				Dummy.change=PRIORITY_MOVEMENT*fabs(Dummy.theta-current.theta)/(2.0*BOT_M_ALPHA)+PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(Dummy))/(map.obs_dist_max-1)+fabs(Dummy.theta)/BOT_M_ALPHA+1;
 				current=Dummy;
@@ -128,6 +134,9 @@ function AstarPlanner()
             end
         end
     end
-    result = previous;
-    save(result);
+%    result = previous;
+    %for i=1:1:xMax
+    %    disp(result(i));
+    %end
+%    save('result');
 end
