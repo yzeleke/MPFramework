@@ -58,6 +58,7 @@ function plotResult()
 
     for i = 1:speed: length(ydata)    % n : length(t)
 
+    
     % drawing code
        x0 = [ydata(1,i),ydata(2,i)];
        f = plotHighway(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth);

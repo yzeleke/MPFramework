@@ -46,7 +46,8 @@ function run(Vmodel,Planner,Environment,options,SimTime)
                MpcPlanner(SimTime);
                plotResult();
         case 'rrt'
-               RRTPlanner();
+               RRTPlanner(SimTime);
+               plotResult();
         case 'astar'
                AstarPlanner();
         otherwise
