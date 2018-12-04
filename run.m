@@ -14,7 +14,7 @@
 %@Revision					:  	11/5/18                                                                                      
 %***************************************************************************
 
-
+%%
 function run(Vmodel,Planner,Environment,options,SimTime)    
 
     %close all windows but do not clear workspace otherwise we loose all params.
@@ -44,6 +44,8 @@ function run(Vmodel,Planner,Environment,options,SimTime)
     switch lower(Planner)
         case 'mpc'
                MpcPlanner(SimTime);
+               plotResult();
+        case 'rrt'
                RRTPlanner();
         otherwise
             disp('Vehicle model not found in database')
@@ -51,7 +53,7 @@ function run(Vmodel,Planner,Environment,options,SimTime)
     
 
     %% plot results
-    plotResult();
+    %plotResult();
     
     %comment this line if you choose to save the data for later use
     delete *.mat
