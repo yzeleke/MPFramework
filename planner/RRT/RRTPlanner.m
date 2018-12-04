@@ -2,10 +2,25 @@
 % The use of this code, its parts and all the materials in the text; creation of derivatives and their publication; and sharing the code publically is permitted without permission. 
 
 % Please cite the work in all materials as: R. Kala (2014) Code for Robot Path Planning using Rapidly-exploring Random Trees, Indian Institute of Information Technology Allahabad, Available at: http://rkala.in/codes.html
+function [data] = RRTPlanner()
+load('environment.mat');
+    %load vehilce model
+load('model.mat');
 
-map=im2bw(imread('map3.bmp')); % input map read from a bmp file. for new maps write the file name here
-source=[10 10]; % source position in Y, X format
-goal=[490 490]; % goal position in Y, X format
+
+%map=im2bw(imread('map3.bmp')); % input map read from a bmp file. for new maps write the file name here
+% source=[10 10]; % source position in Y, X format
+% goal=[490 490]; % goal position in Y, X format
+resolution_x = 0.1;
+resolution_y = 0.1;
+upper_bound_x = min(100, upper_bound_x);
+source = x0(1:2,1)';
+goal = goal(1:2,1)';
+
+[map, source, goal] = gridize(obstacle,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y, source, goal);
+
+
+
 stepsize=20; % size of each step of the RRT
 disTh=20; % nodes closer than this threshold are taken as almost the same
 maxFailedAttempts = 10000;
@@ -16,7 +31,7 @@ display=false; % display of RRT generation
 tic;
 if ~feasiblePoint(source,map), error('source lies on an obstacle or outside map'); end
 if ~feasiblePoint(goal,map), error('goal lies on an obstacle or outside map'); end
-if display, imshow(map);rectangle('position',[1 1 size(map)-1],'edgecolor','k'); end
+% if display, imshow(map);rectangle('position',[1 1 size(map)-1],'edgecolor','k'); end
 RRTree=double([source -1]); % RRT rooted at the source, representation node and parent index
 failedAttempts=0;
 counter=0;
@@ -63,5 +78,7 @@ end
 pathLength=0;
 for i=1:length(path)-1, pathLength=pathLength+distanceCost(path(i,1:2),path(i+1,1:2)); end
 fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength); 
-imshow(map);rectangle('position',[1 1 size(map)-1],'edgecolor','k');
+imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
 line(path(:,2),path(:,1));
+data = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
+save('result.mat','data');
