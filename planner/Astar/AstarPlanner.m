@@ -1,17 +1,25 @@
-function AstarPlanner(startX, startY, targetX, targetY, targetTheta)
-     Theta = 72;
-     Theta_Res = 5;
-     BOT_L = 34;
-     BOT_W = 20;
+function AstarPlanner()
+    %Load environment and vehilce model
+    load('environment.mat');
+%     load('model.mat');
+    startX = x0(1);
+    startY = x0(2);
+    targetX = goal(1);
+    targetY = goal(2);
+    targetTheta
+    Theta = 72;
+    Theta_Res = 5;
+    BOT_L = 34;
+    %BOT_W = 20;
     BOT_M_ALPHA = 30;
     PRIORITY_OBSTACLE_NEAR = 10;
     PRIORITY_MOVEMENT = 5;
 
-    xMax = targetX;
-    yMax = targetY;
-    %Load environment and vehilce model
-%     load('environment.mat');
-%     load('model.mat');
+    xMax = upper_bound_x;
+    yMax = upper_bound_y;
+
+     
+
     
     %build space we are navigating
     
