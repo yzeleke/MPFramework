@@ -47,6 +47,8 @@ function run(Vmodel,Planner,Environment,options,SimTime)
                plotResult();
         case 'rrt'
                RRTPlanner();
+        case 'astar'
+               AstarPlanner();
         otherwise
             disp('Vehicle model not found in database')
     end

@@ -1,12 +1,13 @@
 function AstarPlanner()
     %Load environment and vehilce model
     load('environment.mat');
-%     load('model.mat');
+    load('model.mat');
+    
     startX = x0(1);
     startY = x0(2);
     targetX = goal(1);
     targetY = goal(2);
-    targetTheta
+    targetTheta = 0;
     Theta = 72;
     Theta_Res = 5;
     BOT_L = 34;
@@ -15,7 +16,7 @@ function AstarPlanner()
     PRIORITY_OBSTACLE_NEAR = 10;
     PRIORITY_MOVEMENT = 5;
 
-    xMax = upper_bound_x;
+    xMax = 1000;
     yMax = upper_bound_y;
 
      
@@ -113,7 +114,7 @@ function AstarPlanner()
     %end getNextStates
 
         for i=1:1:3
-            if next(i).x ~= obstacle.X && next(i).y ~= obstacle.Y %if(~map.checkCollision(next(i)))
+            if next(i).x ~= obstacle.X & next(i).y ~= obstacle.Y %if(~map.checkCollision(next(i)))
                 if(i==2)
 					next(i).cost3d=current.cost3d+5;
 				else
