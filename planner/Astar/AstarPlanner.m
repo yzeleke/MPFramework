@@ -128,4 +128,6 @@ function AstarPlanner()
             end
         end
     end
+    result = previous;
+    save(result);
 end

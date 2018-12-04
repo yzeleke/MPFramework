@@ -11,6 +11,9 @@ classdef mapCell
         closed
         cost2d
         cost3d
+        next
+        previousX
+        previousY
     end
     
     methods
