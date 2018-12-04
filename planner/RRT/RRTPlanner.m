@@ -2,17 +2,17 @@
 % The use of this code, its parts and all the materials in the text; creation of derivatives and their publication; and sharing the code publically is permitted without permission. 
 
 % Please cite the work in all materials as: R. Kala (2014) Code for Robot Path Planning using Rapidly-exploring Random Trees, Indian Institute of Information Technology Allahabad, Available at: http://rkala.in/codes.html
-function [data] = RRTPlanner()
+function [ydata] = RRTPlanner(simT)
 load('environment.mat');
     %load vehilce model
 load('model.mat');
 
-
+Tsim = simT;
 %map=im2bw(imread('map3.bmp')); % input map read from a bmp file. for new maps write the file name here
 % source=[10 10]; % source position in Y, X format
 % goal=[490 490]; % goal position in Y, X format
-resolution_x = 0.1;
-resolution_y = 0.1;
+resolution_x = 0.01; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
+resolution_y = 0.01; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
 upper_bound_x = min(100, upper_bound_x);
 source = x0(1:2,1)';
 goal = goal(1:2,1)';
@@ -78,7 +78,8 @@ end
 pathLength=0;
 for i=1:length(path)-1, pathLength=pathLength+distanceCost(path(i,1:2),path(i+1,1:2)); end
 fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength); 
-imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
-line(path(:,2),path(:,1));
-data = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
-save('result.mat','data');
+%imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
+%line(path(:,2),path(:,1));
+ydata = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
+ydata = ydata.'; % You need to transpose it so that plotResult function can work..
+save('result.mat');

@@ -15,7 +15,7 @@ for i = 1:upper_bound_i
     for j = 1:upper_bound_j
         x = (i - 1)*resolution_x;
         y = (j - 1)*resolution_y;
-        if (abs(x - obstacle.X) < 0.5*obstacle.Length)& (abs(y - obstacle.Y) < 0.5*obstacle.Length)
+        if (abs(x - obstacle.X) < 0.5*obstacle.Length+obstacle.safeDistanceX)& (abs(y - obstacle.Y) < 0.5*obstacle.Length+obstacle.safeDistanceY)
             output(i,j) = 0;
         end
     end
