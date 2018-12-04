@@ -14,8 +14,8 @@ classdef mapCell
     end
     
     methods
-        function obj = mapCell(incost2d,incost3d, obstacle)
-            obj.closed = obstacle;
+        function obj = mapCell(incost2d,incost3d, obst)
+            obj.closed = obst;
             obj.cost2d = incost2d;
             obj.cost3d = incost3d;
         end

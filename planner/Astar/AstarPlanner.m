@@ -1,8 +1,8 @@
 function AstarPlanner(startX, startY, targetX, targetY, targetTheta)
-%     Theta = 72;
-%     Theta_Res = 5;
-%     BOT_L = 34;
-%     BOT_W = 20;
+     Theta = 72;
+     Theta_Res = 5;
+     BOT_L = 34;
+     BOT_W = 20;
     BOT_M_ALPHA = 30;
     PRIORITY_OBSTACLE_NEAR = 10;
     PRIORITY_MOVEMENT = 5;
@@ -72,11 +72,40 @@ function AstarPlanner(startX, startY, targetX, targetY, targetTheta)
 			break;
         end
 
-        %TODO: need to implement getNextStates
- 		next=current.getNextStates();
+        %next=current.getNextStates();
+        %begin getNextStates
+        next = repmat(mapCell(0, 0, 0), 3);
+        d=40;
+        stateCount = 1;
 
-        for i=1:1:i<next.nElements
-            if(~map.checkCollision(next(i)))
+        for alpha=-BOT_M_ALPHA : BOT_M_ALPHA : BOT_M_ALPHA+0.001
+            beta=d*tan(alpha*pi/180)/BOT_L;
+            if(abs(beta)<0.001)
+                n.x=x+d*cos(current.theta*2.0*pi/Theta);
+                n.y=y+d*sin(current.theta*2.0*pi/Theta);
+                n.theta=current.theta;
+            else
+                r=BOT_L/tan(alpha*pi/180);
+                next(stateCount).x=x+r*sin(current.theta*2.0*pi/Theta+beta)-r*sin(current.theta*2.0*pi/Theta);
+                next(stateCount).y=y-r*cos(current.theta*2.0*pi/Theta+beta)+r*cos(current.theta*2.0*pi/Theta);
+                if(current.theta + beta*180/pi/Theta_Res>0)
+        			next(stateCount).theta=fmod(current.theta + beta*180/pi/Theta_Res,Theta);
+                else
+                    next(stateCount).theta=current.theta + beta*180/pi/Theta_Res+Theta;
+                end
+            end
+%            n.gx=n.x/Grid_Res;
+%            n.gy=n.y/Grid_Res;
+%            n.gtheta=n.theta+0.01;
+%            next.push_back(n);
+        end
+
+	% cout<<"getNextStates() called from "<<x<<","<<y<<","<<theta<<endl;
+	% for(int i=0;i<3;i++) cout<<next[i].x<<","<<next[i].y<<","<<next[i].theta<<"  "; cout<<endl;
+    %end getNextStates
+
+        for i=1:1:3
+            if next(i).x ~= obstacle.X && next(i).y ~= obstacle.Y %if(~map.checkCollision(next(i)))
                 if(i==2)
 					next(i).cost3d=current.cost3d+5;
 				else
