@@ -11,8 +11,8 @@ Tsim = simT;
 %map=im2bw(imread('map3.bmp')); % input map read from a bmp file. for new maps write the file name here
 % source=[10 10]; % source position in Y, X format
 % goal=[490 490]; % goal position in Y, X format
-resolution_x = 0.01; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
-resolution_y = 0.01; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
+resolution_x = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
+resolution_y = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
 upper_bound_x = min(100, upper_bound_x);
 source = x0(1:2,1)';
 goal = goal(1:2,1)';
@@ -79,7 +79,7 @@ pathLength=0;
 for i=1:length(path)-1, pathLength=pathLength+distanceCost(path(i,1:2),path(i+1,1:2)); end
 fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength); 
 %imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
-%line(path(:,2),path(:,1));
+line(path(:,2),path(:,1));
 ydata = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
 ydata = ydata.'; % You need to transpose it so that plotResult function can work..
 save('result.mat');
