@@ -12,6 +12,7 @@ classdef mapCell
         cost2d
         cost3d
         next
+%         previous
         previousX
         previousY
     end

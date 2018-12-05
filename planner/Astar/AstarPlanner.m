@@ -1,25 +1,35 @@
 function AstarPlanner()
     %Load environment and vehilce model
-    load('environment.mat');
-    load('model.mat');
+%     load('environment.mat');
+%     load('model.mat');
+    load('testenvironment.mat');
+    load('testmodel.mat');
     
     disp("hi");
     
-    startX = x0(1);
+    startX = x0(1); %+40
     startY = x0(2);
     targetX = goal(1);
     targetY = goal(2);
     %targetTheta = 0;
-    Theta = 72;
-    Theta_Res = 5;
+%     Theta = 72;
+%     Theta_Res = 5;
     BOT_L = 2;
     %BOT_W = 20;
     BOT_M_ALPHA = 30;
-    PRIORITY_OBSTACLE_NEAR = 10;
-    PRIORITY_MOVEMENT = 5;
+%     PRIORITY_OBSTACLE_NEAR = 10;
+%     PRIORITY_MOVEMENT = 5;
+    
+    d=2;
+    GOALTHESH = 3;
 
-    xMax = 100; %upper_bound_x;
+    xMax = upper_bound_x;
     yMax = upper_bound_y;
+    
+    %prevents x form begin inf in testing
+    if(xMax > 100)
+        xMax = 100;
+    end
     
     fprintf("Target is (%d, %d)\n", targetX, targetY);
 
@@ -71,7 +81,7 @@ function AstarPlanner()
     cells(startX, startY).y = startY;
     cells(startX, startY).theta = 0;
  	push(pq, cells(startX, startY), 0);
-    fprintf("start (%f, %f)\n", startX, startY);
+    fprintf("start (%f, %f), obstacle (%f, %f)\n", startX, startY, obstacle.X, obstacle.Y);
     
     previous = repmat(mapCell(10000, 0, 0), xMax, yMax, 360);
 
@@ -80,25 +90,29 @@ function AstarPlanner()
 
 %         fprintf("Current (%f, %f)\n", current.x, current.y);
 
-        if(abs(current.x-targetX)<=2 & abs(current.y-targetY)<=2)% & abs(current.theta-targetTheta)<=5)
-			disp("Reached target.");
+        if(abs(current.x-targetX)<=GOALTHESH & abs(current.y-targetY)<=GOALTHESH)% & abs(current.theta-targetTheta)<=5)
+			fprintf("Reached target.\n");
             %imshow(map);
 			%current.change=PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(current))/(map.obs_dist_max-1) + fabs(current.theta)/BOT_M_ALPHA +1; 
-				
+            pathX(1) = current.x;
+            pathY(1) = current.y;
+			
             while(current.x~=startX || current.y~=startY)% || current.theta~=start.theta)
 				%current.velocity=VELOCITY_MAX/current.change;
                 disp(current);
-				Dummy=previous(floor(current.x), floor(current.y), floor(current.theta)+180);
+                Dummy=previous(floor(current.x), floor(current.y), floor(current.theta)+180);
 				%Dummy.change=PRIORITY_MOVEMENT*fabs(Dummy.theta-current.theta)/(2.0*BOT_M_ALPHA)+PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(Dummy))/(map.obs_dist_max-1)+fabs(Dummy.theta)/BOT_M_ALPHA+1;
 				current=Dummy;
+                pathX(end+1) = current.x;
+                pathY(end+1) = current.y;
             end
+            plot(pathX, pathY);
 			break;
         end
 
         %next=current.getNextStates();
         %begin getNextStates
         next = repmat(mapCell(0, 0, 0), 3, 1);
-        d=5;
         stateCount = 1;
 
         for alpha=-BOT_M_ALPHA : BOT_M_ALPHA : BOT_M_ALPHA+0.001
@@ -108,19 +122,28 @@ function AstarPlanner()
                 %disp("beta low");
                 %disp(current.theta);
                 %fprintf("xval is %d", current.x+d*cos(current.theta*2.0*pi/Theta));
-                next(stateCount).x=current.x+d*cos(current.theta*2.0*pi/Theta);
+                next(stateCount).x=current.x+d;
+%                 next(stateCount).x=current.x+d*cos(current.theta*2.0*pi/Theta);
                 %fprintf("updated %f", next(stateCount).x);
-                next(stateCount).y=current.y+d*sin(current.theta*2.0*pi/Theta);
-                next(stateCount).theta=current.theta;
+                next(stateCount).y=current.y;
+                next(stateCount).theta = 2;
+%                 next(stateCount).y=current.y+d*sin(current.theta*2.0*pi/Theta);
+%                 next(stateCount).theta=current.theta;
             else
-                r=BOT_L/tan(alpha*pi/180);
-                next(stateCount).x=current.x+r*sin(current.theta*2.0*pi/Theta+beta)-r*sin(current.theta*2.0*pi/Theta);
-                next(stateCount).y=current.y-r*cos(current.theta*2.0*pi/Theta+beta)+r*cos(current.theta*2.0*pi/Theta);
-                if(current.theta + beta*180/pi/Theta_Res>0)
-        			next(stateCount).theta=mod(current.theta + beta*180/pi/Theta_Res,Theta);
-                else
-                    next(stateCount).theta=current.theta + beta*180/pi/Theta_Res+Theta;
-                end
+%                 r=BOT_L/tan(alpha*pi/180);
+                next(stateCount).x=current.x;
+%                 next(stateCount).x=current.x+r*sin(current.theta*2.0*pi/Theta+beta)-r*sin(current.theta*2.0*pi/Theta);
+                next(stateCount).y=current.y+(alpha/BOT_M_ALPHA);
+%                 if(next(stateCount).y < current.y)
+%                     fprintf("moved up\n");
+%                 end
+                next(stateCount).theta = 2 + (alpha/BOT_M_ALPHA);
+%                 next(stateCount).y=current.y-r*cos(current.theta*2.0*pi/Theta+beta)+r*cos(current.theta*2.0*pi/Theta);
+%                 if(current.theta + beta*180/pi/Theta_Res>0)
+%         			next(stateCount).theta=mod(current.theta + beta*180/pi/Theta_Res,Theta);
+%                 else
+%                     next(stateCount).theta=current.theta + beta*180/pi/Theta_Res+Theta;
+%                 end
             end
             %disp(next(stateCount));
             stateCount = stateCount + 1;
@@ -135,7 +158,7 @@ function AstarPlanner()
 
         for i=1:1:3
             if(next(i).x >= 1 && next(i).x <= xMax && next(i).y >= 1 && next(i).y <= yMax)
-%             if next(i).x ~= obstacle.X & next(i).y ~= obstacle.Y %if(~map.checkCollision(next(i)))
+                if ~(next(i).x >= obstacle.X && next(i).x <= obstacle.X + obstacle.Length && next(i).y >= obstacle.Y && next(i).y <= obstacle.Y + obstacle.Width) %if(~map.checkCollision(next(i)))
                     if(i==2)
             			next(i).cost3d=current.cost3d+5;
                     else
@@ -151,7 +174,9 @@ function AstarPlanner()
 %                 disp(next(i));
                     push(pq, next(i), next(i).cost3d + cells(floor(next(i).x), floor(next(i).y)).cost2d);%pq.push(next(i));
                     previous(floor(next(i).x), floor(next(i).y), floor(next(i).theta)+180)=current;
-%                 end
+%                 else
+%                     fprintf("hit obstacle (%d, %d)\n", next(i).x, next(i).y);
+                end
             end
         end
     end
