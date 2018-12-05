@@ -7,7 +7,7 @@ function AstarPlanner()
     
     disp("hi");
     
-    startX = x0(1); %+40
+    startX = x0(1)+40; %+40
     startY = x0(2);
     targetX = goal(1);
     targetY = goal(2);
@@ -20,10 +20,12 @@ function AstarPlanner()
 %     PRIORITY_OBSTACLE_NEAR = 10;
 %     PRIORITY_MOVEMENT = 5;
     
+    %step size
     d=2;
+    %distance to tagrget to have reached target
     GOALTHESH = 3;
 
-    xMax = upper_bound_x;
+    xMax = 100;%upper_bound_x;
     yMax = upper_bound_y;
     
     %prevents x form begin inf in testing
@@ -94,8 +96,8 @@ function AstarPlanner()
 			fprintf("Reached target.\n");
             %imshow(map);
 			%current.change=PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(current))/(map.obs_dist_max-1) + fabs(current.theta)/BOT_M_ALPHA +1; 
-            pathX(1) = current.x;
-            pathY(1) = current.y;
+            result(1,1) = current.x;
+            result(2,1) = current.y;
 			
             while(current.x~=startX || current.y~=startY)% || current.theta~=start.theta)
 				%current.velocity=VELOCITY_MAX/current.change;
@@ -103,10 +105,11 @@ function AstarPlanner()
                 Dummy=previous(floor(current.x), floor(current.y), floor(current.theta)+180);
 				%Dummy.change=PRIORITY_MOVEMENT*fabs(Dummy.theta-current.theta)/(2.0*BOT_M_ALPHA)+PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(Dummy))/(map.obs_dist_max-1)+fabs(Dummy.theta)/BOT_M_ALPHA+1;
 				current=Dummy;
-                pathX(end+1) = current.x;
-                pathY(end+1) = current.y;
+                result(1, end+1) = current.x;
+                result(2, end+1) = current.y;
+                save('result.mat', 'result');
             end
-            plot(pathX, pathY);
+            %   plot(result(1, :), result(2, :));
 			break;
         end
 
