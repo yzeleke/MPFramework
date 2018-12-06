@@ -43,9 +43,14 @@ function MpcPlanner(Tsim)
 
     % 
     % The prediction horizon is |25| steps, which is equivalent to 0.5 seconds.
-    mpcobj.PredictionHorizon = 50;
+    mpcobj.PredictionHorizon = 100;
     mpcobj.ControlHorizon = 15;
 
+    
+    %% Use custom constraint function
+    mpcobj.Optimizer.CustomCostFcn = true;
+    mpcobj.Optimizer.CustomConstraintFcn;
+    
     %% Hard Constraints on System Dynamics 
     % To prevent the car from experiencing unrealstic speed, set constraints on
     % speed
@@ -69,11 +74,11 @@ function MpcPlanner(Tsim)
                 mpcobj.ManipulatedVariables(1).Min = lower_bound_speed;
                 mpcobj.ManipulatedVariables(1).Max = upper_bound_speed;
                 
-                mpcobj.Weights.OutputVariables = [5 5 5 0];
+                mpcobj.Weights.OutputVariables = [1 5 5 0];
                 mpcobj.Weights.ManipulatedVariables = [5 0];
 
 
-        case 'pointmass'
+        case 'pointmass_j'
                 mpcobj.OutputVariables(1).Max = upper_bound_x;
                 mpcobj.OutputVariables(1).Min = lower_bound_x;
 
@@ -92,9 +97,33 @@ function MpcPlanner(Tsim)
                 mpcobj.OutputVariables(6).Max = upper_bound_acc_y;
                 mpcobj.OutputVariables(6).Min = lower_bound_acc_y;
                 
+                mpcobj.ManipulatedVariables(2).Min = lower_bound_Jerk;
+                mpcobj.ManipulatedVariables(2).Max = upper_bound_Jerk;
                 
-                mpcobj.Weights.OutputVariables = [0 5 0 0 0 0];
+                mpcobj.ManipulatedVariables(1).Min = lower_bound_Jerk;
+                mpcobj.ManipulatedVariables(1).Max = upper_bound_Jerk;
+                
+                
+                mpcobj.Weights.OutputVariables = [0 5 0 5 0 0];
                 mpcobj.Weights.ManipulatedVariables = [0 0];
+                
+          case 'pointmass_v'
+                mpcobj.OutputVariables(1).Max = upper_bound_x;
+                mpcobj.OutputVariables(1).Min = lower_bound_x;
+
+                mpcobj.OutputVariables(2).Max = upper_bound_y;
+                mpcobj.OutputVariables(2).Min = lower_bound_y;
+
+                mpcobj.ManipulatedVariables(1).Min = lower_bound_speed_x;
+                mpcobj.ManipulatedVariables(1).Max = upper_bound_speed_x;
+                
+                
+                mpcobj.ManipulatedVariables(2).Min = lower_bound_speed_y;
+                mpcobj.ManipulatedVariables(2).Max = upper_bound_speed_y;
+                
+        
+                mpcobj.Weights.OutputVariables = [0 10];
+                mpcobj.Weights.ManipulatedVariables = [0 5];
 
         otherwise
             disp('This vehicle model not implemented')
@@ -128,8 +157,10 @@ function MpcPlanner(Tsim)
         switch model
             case 'Dubin'
                   [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_Dubin(Ts,x,u);
-            case 'pointmass'
-                  [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_pointMass(Ts,x,u);
+            case 'pointmass_v'
+                  [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_pointMass_V(Ts,x,u);
+            case 'pointmass_j'
+                  [Ad,Bd,Cd,Dd,U,Y,X,DX] = obstacleVehicleModelDT_pointMass_J(Ts,x,u);
             otherwise
                 disp('This vehicle model not implemented');
         end
@@ -139,16 +170,19 @@ function MpcPlanner(Tsim)
 
         ydata = [ydata y];
         % Update constraints.
-        [Min_y, Max_y]= ouputConstraint(x,1,obstacle);
+        [Min_y, Max_y]= ouputConstraintConservative(x,1,obstacle);
         
        
         switch model
             case 'Dubin'
                   options.OutputMin =  [lower_bound_x;Min_y;lower_bound_theta;lower_bound_phi]';
                   options.OutputMax =  [upper_bound_x;Max_y;upper_bound_theta;upper_bound_phi]';
-            case 'pointmass'
+            case 'pointmass_j'
                   options.OutputMin =  [lower_bound_x;Min_y;lower_bound_speed_x;lower_bound_speed_y;lower_bound_acc_x;lower_bound_acc_y]';
                   options.OutputMax =  [upper_bound_x;Max_y;upper_bound_speed_x;upper_bound_speed_y;upper_bound_acc_x;upper_bound_acc_y]';
+           case 'pointmass_v'
+                  options.OutputMin =  [lower_bound_x;Min_y]';
+                  options.OutputMax =  [upper_bound_x;Max_y]';
             otherwise
                 disp('ERROR on mpcplanner(): This vehicle model not implemented to set constriants ');
                 break;

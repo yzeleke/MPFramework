@@ -27,8 +27,10 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
     
     %% Chose vehicle model
     switch lower(Vmodel)
-        case 'pointmass' 
-                pointmass(Ts);
+        case 'pointmass_v' 
+                pointmass_V(Ts);
+        case 'pointmass_j' 
+                pointmass_J(Ts);
                 
         case 'dubin' 
                 Dubin(Ts);
