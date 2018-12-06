@@ -1,13 +1,11 @@
-function AstarPlanner()
+function AstarPlanner(simT)
     %Load environment and vehilce model
-%     load('environment.mat');
-%     load('model.mat');
-    load('testenvironment.mat');
-    load('testmodel.mat');
+     load('environment.mat');
+     load('model.mat');
     
     disp("hi");
-    
-    startX = x0(1)+40; %+40
+    Tsim = simT; 
+    startX = x0(1); %+40
     startY = x0(2);
     targetX = goal(1);
     targetY = goal(2);
@@ -21,9 +19,9 @@ function AstarPlanner()
 %     PRIORITY_MOVEMENT = 5;
     
     %step size
-    d=2;
+    d=1;
     %distance to tagrget to have reached target
-    GOALTHESH = 3;
+    GOALTHESH = 1;
 
     xMax = 100;%upper_bound_x;
     yMax = upper_bound_y;
@@ -96,20 +94,19 @@ function AstarPlanner()
 			fprintf("Reached target.\n");
             %imshow(map);
 			%current.change=PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(current))/(map.obs_dist_max-1) + fabs(current.theta)/BOT_M_ALPHA +1; 
-            result(1,1) = current.x;
-            result(2,1) = current.y;
+            x1data(1) = current.x;
+            y1data(1) = current.y;
 			
             while(current.x~=startX || current.y~=startY)% || current.theta~=start.theta)
 				%current.velocity=VELOCITY_MAX/current.change;
-                disp(current);
+                %disp(current);
                 Dummy=previous(floor(current.x), floor(current.y), floor(current.theta)+180);
 				%Dummy.change=PRIORITY_MOVEMENT*fabs(Dummy.theta-current.theta)/(2.0*BOT_M_ALPHA)+PRIORITY_OBSTACLE_NEAR*(map.obs_dist_max-map.nearest_obstacle_distance(Dummy))/(map.obs_dist_max-1)+fabs(Dummy.theta)/BOT_M_ALPHA+1;
 				current=Dummy;
-                result(1, end+1) = current.x;
-                result(2, end+1) = current.y;
-                save('result.mat', 'result');
+                x1data(end+1) = current.x;
+                y1data(end+1) = current.y;
             end
-            %   plot(result(1, :), result(2, :));
+            %   plot(ydata(1, :), ydata(2, :));
 			break;
         end
 
@@ -184,9 +181,10 @@ function AstarPlanner()
         end
     end
     disp("pq empty");
-%    result = previous; 
+    ydata = [x1data; y1data];
+    save('result.mat');
+%    ydata = previous; 
     %for i=1:1:xMax
-    %    disp(result(i));
+    %    disp(ydata(i));
     %end
-%    save('result');
 end
