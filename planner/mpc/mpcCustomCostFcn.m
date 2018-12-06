@@ -52,7 +52,7 @@ goal = yref(:,1:2);
 % Quadratic cost
 %f =  sum(jerk)^2;
 %f = sum(sum(((pose-goal)*Wy_).^2))+sum(sum((du*Wdu).^2))+Wecr*slack^2;%+sum(jerk)^2;
-f = Wterm*sum(sum(((pose-goal)*Wy_).^2))+sum(sum((du*Wdu).^2))+Wecr*slack^2+jerk;
+f = Wterm*sum(sum(((pose-goal)*Wy_).^2))+sum(sum((du*Wdu).^2))+Wecr*slack^2;
 % Gradients
 
 

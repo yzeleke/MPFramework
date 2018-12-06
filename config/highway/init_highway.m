@@ -36,7 +36,7 @@ function init_highway(options)
 
     %% 
     % Place the obstacle |50| meters down the road.
-    obstacle.X = 60;
+    obstacle.X = 50;
     obstacle.Y = 7;
     
     
