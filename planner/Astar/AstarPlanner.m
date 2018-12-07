@@ -5,7 +5,7 @@ function AstarPlanner(simT)
     
     disp("hi");
     Tsim = simT; 
-    startX = x0(1); %+40
+    startX = x0(1) + 40; %+40
     startY = x0(2);
     targetX = goal(1);
     targetY = goal(2);

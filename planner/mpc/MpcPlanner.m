@@ -40,7 +40,8 @@ function MpcPlanner(Tsim)
     % a desired velocity and stay in the middle of the center lane.
     status = mpcverbosity('off');
     mpcobj = mpc(plant);
-
+    
+    mpcobj.IsEconomicMPC = false
     % 
     % The prediction horizon is |25| steps, which is equivalent to 0.5 seconds.
     mpcobj.PredictionHorizon = 100;
