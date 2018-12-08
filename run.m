@@ -56,6 +56,9 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                     disp('Planner not found in database')
             end
         otherwise
+<<<<<<< HEAD
+            %plotTrajectory(SimTime)
+=======
             switch lower(Planner)
                 case 'mpc'
                     MpcPlanner(SimTime);
@@ -70,6 +73,7 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                     disp('Planner not found in database')
             end
             
+>>>>>>> origin/master
     end
     %% Chose vehicle model
     
