@@ -13,7 +13,7 @@ Tsim = simT;
 % goal=[490 490]; % goal position in Y, X format
 resolution_x = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
 resolution_y = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
-upper_bound_x = min(100, upper_bound_x);
+upper_bound_x = min(100, upper_bound_x);%ddd
 source = x0(1:2,1)';
 target = goal(1:2,1)';
 
