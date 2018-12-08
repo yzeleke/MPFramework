@@ -63,13 +63,13 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
             switch lower(Planner)
                 case 'mpc'
                     MpcPlanner(SimTime);
-                    plotTrajectory()
+                    plotTrajectory(Planner)
                 case 'rrt'
                     RRTPlanner(SimTime);
-                    plotTrajectory()
+                    plotTrajectory(Planner)
                 case 'astar'
                     AstarPlanner(SimTime);
-                    plotTrajectory()
+                    plotTrajectory(Planner)
                 otherwise
                     disp('Planner not found in database')
             end
@@ -84,6 +84,6 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
     %plotResult();
     
     %comment this line if you choose to save the data for later use
-    %delete *.mat
+    delete *.mat
 
 end
