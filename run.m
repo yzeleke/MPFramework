@@ -31,7 +31,6 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                 pointmass_V(Ts);
         case 'pointmass_j' 
                 pointmass_J(Ts);
-                
         case 'dubin' 
                 Dubin(Ts);
         otherwise

@@ -29,7 +29,7 @@ function plotTrajectory(Planner)
     end
     
     
-    goal = [90, 7];  %This is here because RRT has an error which changes the goal
+    %goal = [90, 7];  %This is here because RRT has an error which changes the goal
     figure(1)
     
     plot(obstacle.X,obstacle.Y, 'rx', 'LineWidth',2);
