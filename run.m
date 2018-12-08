@@ -54,7 +54,7 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                     disp('Vehicle model not found in database')
             end
         otherwise
-            plotTrajectory(SimTime)
+            %plotTrajectory(SimTime)
     end
     %% Chose vehicle model
     

@@ -15,9 +15,9 @@ resolution_x = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the
 resolution_y = 0.1; % I changed this resolution from 0.1 to 0.01 to smoothen the RRT path
 upper_bound_x = min(100, upper_bound_x);
 source = x0(1:2,1)';
-goal = goal(1:2,1)';
+target = goal(1:2,1)';
 
-[map, source, goal] = gridize(obstacle,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y, source, goal);
+[map, source, target] = gridize(obstacle,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y, source, target);
 
 
 
@@ -30,7 +30,7 @@ display=false; % display of RRT generation
 
 tic;
 if ~feasiblePoint(source,map), error('source lies on an obstacle or outside map'); end
-if ~feasiblePoint(goal,map), error('goal lies on an obstacle or outside map'); end
+if ~feasiblePoint(target,map), error('goal lies on an obstacle or outside map'); end
 % if display, imshow(map);rectangle('position',[1 1 size(map)-1],'edgecolor','k'); end
 RRTree=double([source -1]); % RRT rooted at the source, representation node and parent index
 failedAttempts=0;
@@ -40,7 +40,7 @@ while failedAttempts<=maxFailedAttempts  % loop to grow RRTs
     if rand < 0.5, 
         sample=rand(1,2) .* size(map); % random sample
     else
-        sample=goal; % sample taken as goal to bias tree generation to goal
+        sample=target; % sample taken as goal to bias tree generation to goal
     end
     [A, I]=min( distanceCost(RRTree(:,1:2),sample) ,[],1); % find closest as per the function in the metric node to the sample
     closestNode = RRTree(I(1),1:2);
@@ -50,7 +50,7 @@ while failedAttempts<=maxFailedAttempts  % loop to grow RRTs
         failedAttempts=failedAttempts+1;
         continue;
     end
-    if distanceCost(newPoint,goal)<disTh, pathFound=true;break; end % goal reached
+    if distanceCost(newPoint,target)<disTh, pathFound=true;break; end % goal reached
     [A, I2]=min( distanceCost(RRTree(:,1:2),newPoint) ,[],1); % check if new node is not already pre-existing in the tree
     if distanceCost(newPoint,RRTree(I2(1),1:2))<disTh, failedAttempts=failedAttempts+1;continue; end 
     RRTree=[RRTree;newPoint I(1)]; % add node
@@ -61,7 +61,7 @@ while failedAttempts<=maxFailedAttempts  % loop to grow RRTs
     end
 end
 if display && pathFound 
-    line([closestNode(2);goal(2)],[closestNode(1);goal(1)]);
+    line([closestNode(2);target(2)],[closestNode(1);target(1)]);
     counter=counter+1;M(counter)=getframe;
 end
 if display 
@@ -69,7 +69,7 @@ if display
     waitforbuttonpress; 
 end
 if ~pathFound, error('no path found. maximum attempts reached'); end
-path=[goal];
+path=[target];
 prev=I(1);
 while prev>0
     path=[RRTree(prev,1:2);path];
