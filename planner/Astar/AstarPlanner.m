@@ -137,7 +137,7 @@ function AstarPlanner(simT)
 %                 if(next(stateCount).y < current.y)
 %                     fprintf("moved up\n");
 %                 end
-                next(stateCount).theta = 2 + (alpha/BOT_M_ALPHA);
+                next(stateCount).theta = stateCount;
 %                 next(stateCount).y=current.y-r*cos(current.theta*2.0*pi/Theta+beta)+r*cos(current.theta*2.0*pi/Theta);
 %                 if(current.theta + beta*180/pi/Theta_Res>0)
 %         			next(stateCount).theta=mod(current.theta + beta*180/pi/Theta_Res,Theta);
