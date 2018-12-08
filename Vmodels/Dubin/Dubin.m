@@ -23,12 +23,15 @@ function Dubin(Ts)
     model = 'Dubin';
     
     x0 = [5; 7; 0; 0]; 
-    u0 = [70; 0];
     
     %set target state
-    goal = [80; 7; 0; 0]; 
+    goal = [90; 7; 0; 0]; 
 
-    ref = [80,7,0,0];
+    ref = goal;
+    
+      %initial input 
+    %input takes speed and steering in that order
+    u0 = [2; 0.2];
 
 
     %% Constraint information
@@ -45,8 +48,8 @@ function Dubin(Ts)
     upper_bound_phi = pi/3;
     lower_bound_phi= -pi/3;
     
-    upper_bound_speed = 70;
-    lower_bound_speed= 0;
+    upper_bound_speed = 30;
+    lower_bound_speed= -0.1;
     
 
     
@@ -55,9 +58,7 @@ function Dubin(Ts)
     % into a discrete-time model to be used by the model predictive controller.
 
 
-    %initial input 
-    %input takes speed and steering in that order
-    u0 = [2; 2];
+  
     
     %Ts = 0.02;
     

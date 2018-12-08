@@ -39,13 +39,15 @@ function plotResult()
     %video
     % initialize
     switch model
-        case 'pointmass' %can you look up a way to use both 'pointmass' and 'Pointmass'
-              vidObj = VideoWriter('passing_pointmass');
+        case 'pointmass_v' %can you look up a way to use both 'pointmass' and 'Pointmass'
+              vidObj = VideoWriter('passing_Input_v');
+         case 'pointmass_j' %can you look up a way to use both 'pointmass' and 'Pointmass'
+              vidObj = VideoWriter('pointmass_Input_jerk');
                 
         case 'Dubin' %can you look up a way to use both 'pointmass' and 'Pointmass'
-                 vidObj = VideoWriter('passing_Dubin');
+                 vidObj = VideoWriter('Dubin');
         otherwise
-            disp('Error: plotResult()...what file name to save video?')
+            disp('Error: plotResult()...Model name can not be found?')
     end
    
     vidObj.FrameRate = 60;

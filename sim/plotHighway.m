@@ -6,12 +6,12 @@ function f = plotHighway(x0,obstacle,laneWidth,lanes,goal,carLength,carWidth)
     X0 = x0(1);
     Y0 = x0(2);
     plot(X0,Y0,'gx'); hold on; grid on;
-    rectangle('Position',[X0-carLength/2,Y0 - carWidth/2,carLength,carWidth],'EdgeColor','r');
+    %rectangle('Position',[X0-carLength/2,Y0 - carWidth/2,carLength,carWidth],'EdgeColor','r');
 
     set(gca,'Color','k')
 
     plot(goal(1),goal(2),'rx')
-    rectangle('Position',[X0-carLength/2,Y0 - carWidth/2,carLength,carWidth],'EdgeColor','r');
+    %rectangle('Position',[X0-carLength/2,Y0 - carWidth/2,carLength,carWidth],'EdgeColor','r');
 
     % Plot the static obstacle.
     plot(obstacle.X,obstacle.Y,'rx');

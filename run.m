@@ -27,8 +27,10 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
     
     %% Chose vehicle model
     switch lower(Vmodel)
-        case 'pointmass' 
-                pointmass(Ts);
+        case 'pointmass_v' 
+                pointmass_V(Ts);
+        case 'pointmass_j' 
+                pointmass_J(Ts);
                 
         case 'dubin' 
                 Dubin(Ts);
@@ -49,12 +51,30 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                     RRTPlanner(SimTime);
                     plotResult();
                 case 'astar'
-                    AstarPlanner();
+                    AstarPlanner(SimTime);
+                    plotResult();
                 otherwise
-                    disp('Vehicle model not found in database')
+                    disp('Planner not found in database')
             end
         otherwise
+<<<<<<< HEAD
             %plotTrajectory(SimTime)
+=======
+            switch lower(Planner)
+                case 'mpc'
+                    MpcPlanner(SimTime);
+                    plotTrajectory()
+                case 'rrt'
+                    RRTPlanner(SimTime);
+                    plotTrajectory()
+                case 'astar'
+                    AstarPlanner(SimTime);
+                    plotTrajectory()
+                otherwise
+                    disp('Planner not found in database')
+            end
+            
+>>>>>>> origin/master
     end
     %% Chose vehicle model
     
@@ -64,6 +84,6 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
     %plotResult();
     
     %comment this line if you choose to save the data for later use
-    delete *.mat
+    %delete *.mat
 
 end

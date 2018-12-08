@@ -79,7 +79,7 @@ pathLength=0;
 for i=1:length(path)-1, pathLength=pathLength+distanceCost(path(i,1:2),path(i+1,1:2)); end
 fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength); 
 %imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
-line(path(:,2),path(:,1));
+%line(path(:,2),path(:,1));
 ydata = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
 ydata = ydata.'; % You need to transpose it so that plotResult function can work..
 save('result.mat');
