@@ -47,11 +47,17 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
     for i=1:1:numel(metrics)
             switch (metrics(i))
                 case "path"
+                    Legend = ["Obstacle", "Target"];
                     figure();hold on
                     for j=1:1:numel(Planner)
                         plotTrajectory(Planner(j), j);
                     end
+                    Legend = [Legend Planner];
+                    legend(Legend)
                     hold off
+                    %legend show;
+                    
+                    
                 case "time"
                     figure(2)
                     bar(time_array)
@@ -61,6 +67,18 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
                     xlabel('Planner')
                     title('Execution time comparision')
                     box off
+                    
+                    
+                case "distance"
+                    Legend = Planner;
+                    figure();hold on
+                    for j=1:1:numel(Planner)
+                        distanceMetric(Planner(j), j);
+                    end
+                    legend(Legend)
+                    hold off
+                    
+                    
                 otherwise
                     disp("Invalid metrics")
             end

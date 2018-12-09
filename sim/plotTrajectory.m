@@ -1,16 +1,16 @@
 %%
 %--------------------------------------------------------------------------
-%										run.m
+%							    plotTrajectory.m
 %--------------------------------------------------------------------------
 %**************************************************************************
-% @ Author                   : 		Yegeta Zeleke and Harsh Bhakta                                            	        
-% @file_name				 : 		 run.m														  
-% @ Date                     : 	   12/05/18                                                     
+% @ Author                   : 		Harsh Bhakta                                            	        
+% @file_name				 : 		plotTrajectory.m														  
+% @ Date                     : 	    11/29/18                                                     
 % @ Discription				 :     This function helps plot the trajectory
-%                                   on the 
+%                                   of the Planner passed in
 %
-% @ Usage					:    plotTrajectory(Planner)    																						  
-% @Revision					:  	12/07/18                                                                                      
+% @ Usage					:      plotTrajectory(Planner)    																						  
+% @Revision					:  	   12/07/18                                                                                      
 %***************************************************************************
 
 
@@ -42,11 +42,10 @@ function plotTrajectory(Planner, color_index)
         hold on
     end
     
-    
-    plot(ydata(1, :), ydata(2, :), color(color_index), 'LineWidth',2);
+    plot(ydata(1, :), ydata(2, :), color(color_index), 'LineWidth', 2);
     hold on;
     
-    legend('obstacle', 'target')
+    %legend('obstacle', 'target')
     title('Trajectory Comparision')
 end
 
