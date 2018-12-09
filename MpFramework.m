@@ -54,11 +54,17 @@
 %%
 function MpFramework(toDo, model, planner, environment, options, sim_time, metrics)
 
-    planner(1)
 % CHECK WHAT THE USER WANTS
    switch (toDo)
        case "compare"
-           compare(model,planner,environment, options, sim_time, metrics)
+           if numel(planner) <= 0
+               disp('Error: Planner argument empty!')
+           elseif numel(metrics) <= 0
+               disp('Error: Metrics argument empty!')
+           else
+               compare(model,planner,environment, options, sim_time, metrics) 
+           end
+           
        case "simulation"
            run(model,planner(1),environment, options, sim_time, 0)
        otherwise

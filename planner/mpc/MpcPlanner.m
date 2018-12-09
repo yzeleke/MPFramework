@@ -50,7 +50,7 @@ function MpcPlanner(Tsim)
     
     %% Use custom constraint function
     mpcobj.Optimizer.CustomCostFcn = true;
-    mpcobj.Optimizer.CustomConstraintFcn;
+    %mpcobj.Optimizer.CustomConstraintFcn;
     
     %% Hard Constraints on System Dynamics 
     % To prevent the car from experiencing unrealstic speed, set constraints on

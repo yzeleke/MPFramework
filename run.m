@@ -54,26 +54,8 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                     plotResult();
                 otherwise
                     disp('Planner not found in database')
-            end
-        otherwise
-<<<<<<< HEAD
-            %plotTrajectory(SimTime)
-=======
-            switch lower(Planner)
-                case 'mpc'
-                    MpcPlanner(SimTime);
-                    plotTrajectory(Planner)
-                case 'rrt'
-                    RRTPlanner(SimTime);
-                    plotTrajectory(Planner)
-                case 'astar'
-                    AstarPlanner(SimTime);
-                    plotTrajectory(Planner)
-                otherwise
-                    disp('Planner not found in database')
-            end
             
->>>>>>> origin/master
+            end
     end
     %% Chose vehicle model
     

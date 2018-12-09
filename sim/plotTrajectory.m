@@ -14,8 +14,12 @@
 %***************************************************************************
 
 
-function plotTrajectory(Planner)
+function plotTrajectory(Planner, color_index)
     load('environment.mat');
+    color = ["r", "g", "b", "y"];
+    
+    disp(color(color_index))
+    disp(Planner)
     
     switch lower(Planner)
         case 'mpc'
@@ -28,18 +32,18 @@ function plotTrajectory(Planner)
             
     end
     
-    
-    %goal = [90, 7];  %This is here because RRT has an error which changes the goal
-    figure(1)
-    
-    plot(obstacle.X,obstacle.Y, 'rx', 'LineWidth',2);
-    rectangle('Position',[obstacle.rrX,obstacle.rrY,obstacle.Length,obstacle.Width],'EdgeColor','r');
     hold on
+    if color_index == 1
+        plot(obstacle.X,obstacle.Y, 'rx', 'LineWidth',2);
+        rectangle('Position',[obstacle.rrX,obstacle.rrY,obstacle.Length,obstacle.Width],'EdgeColor','r');
+        hold on
     
-    plot(goal(1),goal(2), 'rx', 'LineWidth',2);
-    hold on
+        plot(goal(1),goal(2), 'rx', 'LineWidth',2);
+        hold on
+    end
     
-    plot(ydata(1, :), ydata(2, :), 'y', 'LineWidth',2);
+    
+    plot(ydata(1, :), ydata(2, :), color(color_index), 'LineWidth',2);
     hold on;
     
     legend('obstacle', 'target')

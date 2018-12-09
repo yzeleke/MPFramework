@@ -186,7 +186,7 @@ function AstarPlanner(simT)
     end
     disp("pq empty");
     ydata = [x1data; y1data];
-    save('result.mat');
+    save('results/resultAstar.mat');
 %    ydata = previous; 
     %for i=1:1:xMax
     %    disp(ydata(i));
