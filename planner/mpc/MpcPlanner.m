@@ -41,7 +41,6 @@ function MpcPlanner(Tsim)
     status = mpcverbosity('off');
     mpcobj = mpc(plant);
     
-    mpcobj.IsEconomicMPC = false
     % 
     % The prediction horizon is |25| steps, which is equivalent to 0.5 seconds.
     mpcobj.PredictionHorizon = 100;
@@ -202,6 +201,6 @@ function MpcPlanner(Tsim)
         udata = [udata u];
     end
     
-    data = 'result.mat';
+    data = 'results/resultMPC.mat';
     save(data);
 end
