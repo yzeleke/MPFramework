@@ -1,6 +1,10 @@
 # MPFramework
 This repository contains a framework for simulating and deploying various motion planning algorithm.
 
+# Software Requirements
+Matlab 2017 or before
+MPC toolbox
+
 # Arguments
                             ~ toDo - What should the framework do?
                                        -> "compare" - use this as input to compare planners
