@@ -60,16 +60,24 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
                     
                 case "time"
                     figure(2)
-                    bar(time_array)
+                    Legend = Planner;
+                    b_graph = bar(time_array)
+                    color = {[1 0 0] [0 1 0] [0 0 1] [0 1 1]};
+                    b_graph.FaceColor = 'flat';
+                    for j=1:1:numel(Planner)
+                        b_graph.CData(j,:) = cell2mat(color(j));
+                    end
                     text(1:length(time_array),time_array,num2str(time_array'),'vert','bottom','horiz','center'); 
                     %text(1:length(Planner),Planner,Planner','vert','top','horiz','center');
                     ylabel('Time(s)')
                     xlabel('Planner')
+                    legend(b_graph, Legend)
+                    legend show
                     title('Execution time comparision')
                     box off
                     
                     
-                case "distance"
+                case "distance" %Calculate the euclideans distance
                     Legend = Planner;
                     figure();hold on
                     for j=1:1:numel(Planner)
