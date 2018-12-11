@@ -10,7 +10,7 @@ function [min_y, max_y] = ouputConstraintConservative(x,detection,obstacle)
     egoY = x(2);
     
     % slack is used as safety/wiggle room
-    slack =0.2;
+    slack =0.4;
 
 
 
@@ -22,7 +22,7 @@ function [min_y, max_y] = ouputConstraintConservative(x,detection,obstacle)
         % obstacle
         if (egoX<=obstacle.flSafeX)
             
-                min_y = obstacle.flSafeY+slack;
+                min_y = obstacle.Y+slack;
                 max_y = upper_bound_y;
         else 
                  min_y = lower_bound_y;

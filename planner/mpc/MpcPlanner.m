@@ -122,8 +122,8 @@ function MpcPlanner(Tsim)
                 mpcobj.ManipulatedVariables(2).Max = upper_bound_speed_y;
                 
         
-                mpcobj.Weights.OutputVariables = [0 10];
-                mpcobj.Weights.ManipulatedVariables = [0 5];
+                mpcobj.Weights.OutputVariables = [0 0];
+                mpcobj.Weights.ManipulatedVariables = [0 0];
 
         otherwise
             disp('This vehicle model not implemented')
