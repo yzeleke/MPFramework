@@ -43,8 +43,8 @@ function MpcPlanner(Tsim)
     
     % 
     % The prediction horizon is |25| steps, which is equivalent to 0.5 seconds.
-    mpcobj.PredictionHorizon = 100;
-    mpcobj.ControlHorizon = 15;
+    mpcobj.PredictionHorizon = 60;
+    mpcobj.ControlHorizon = 5;
 
     
     %% Use custom constraint function
@@ -122,8 +122,8 @@ function MpcPlanner(Tsim)
                 mpcobj.ManipulatedVariables(2).Max = upper_bound_speed_y;
                 
         
-                mpcobj.Weights.OutputVariables = [0 0];
-                mpcobj.Weights.ManipulatedVariables = [0 0];
+                mpcobj.Weights.OutputVariables = [0 5];
+                mpcobj.Weights.ManipulatedVariables = [0 5];
 
         otherwise
             disp('This vehicle model not implemented')

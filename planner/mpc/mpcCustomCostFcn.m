@@ -57,6 +57,7 @@ f = Wterm*sum(sum(((pose-goal)*Wy_).^2));%+sum(sum((du*Wdu).^2))+Wecr*slack^2;
 
 
 
+
 dfdy = (y-yref)*(Wy.^2);
 dfdu = zeros(p,nmv);
 dfddu = du*(Wdu.^2);

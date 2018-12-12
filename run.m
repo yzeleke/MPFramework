@@ -45,13 +45,13 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
             switch lower(Planner)
                 case 'mpc'
                     MpcPlanner(SimTime);
-                    plotResult();
+                    plotResult(Planner);
                 case 'rrt'
                     RRTPlanner(SimTime);
-                    plotResult();
+                    plotResult(Planner);
                 case 'astar'
                     AstarPlanner(SimTime);
-                    plotResult();
+                    plotResult(Planner);
                 otherwise
                     disp('Planner not found in database')
             

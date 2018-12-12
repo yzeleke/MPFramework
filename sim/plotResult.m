@@ -14,11 +14,26 @@
 %***************************************************************************
 
 
-function plotResult()
+function plotResult(Planner)
     %% The simulation results are identical to those using mpcmove.
     load('init.mat');
     load('environment.mat');
-    load('result.mat');
+    
+     planner_video = 'N/A';
+     switch lower(Planner)
+        case 'mpc'
+            planner_video = 'mpc';
+            load('results/resultMPC.mat');
+        case 'rrt'
+            planner_video = 'rrt';
+            load('results/resultRRT.mat');
+        case 'astar'
+            planner_video = 'astar';
+            load('results/resultAstar.mat');
+            ydata = fliplr(ydata);
+        otherwise
+            
+    end
     
     t = 0:Ts:Tsim;
     figure;
@@ -40,19 +55,22 @@ function plotResult()
     % initialize
     switch model
         case 'pointmass_v' %can you look up a way to use both 'pointmass' and 'Pointmass'
-              vidObj = VideoWriter('passing_Input_v');
+              video_name = strcat(planner_video, '_passing_Input_v');
+              vidObj = VideoWriter(video_name);
          case 'pointmass_j' %can you look up a way to use both 'pointmass' and 'Pointmass'
-              vidObj = VideoWriter('pointmass_Input_jerk');
+              video_name = strcat(planner_video, '_pointmass_Input_jerk');
+              vidObj = VideoWriter(video_name);
                 
         case 'Dubin' %can you look up a way to use both 'pointmass' and 'Pointmass'
-                 vidObj = VideoWriter('Dubin');
+                 video_name = strcat(planner_video, '_Dubin');
+                 vidObj = VideoWriter(video_name);
         otherwise
             disp('Error: plotResult()...Model name can not be found?')
     end
    
     vidObj.FrameRate = 60;
     open(vidObj);
-    speed = 2;     % data sample speed
+    speed = 1;     % data sample speed
 
     % create an animation
     hFig = figure(1);

@@ -82,4 +82,5 @@ fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength);
 %line(path(:,2),path(:,1));
 ydata = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
 ydata = ydata.'; % You need to transpose it so that plotResult function can work..
+%ydata = fliplr(ydata);
 save('results/resultRRT.mat');
