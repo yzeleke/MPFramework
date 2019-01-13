@@ -30,13 +30,17 @@ start.ya    = 0;
 start.final_v = start
 
 % Obstacle Set
-p1 = Point(7,7); p2 = Point(7,8); p3 = Point(8,8); p4 = Point(8,7);
-p5 = Point(4,7); p6 = Point(5,7); p7 = Point(5,8); p8 = Point(4,8);
+p1 = Point(7,7); p2 = Point(7,10); p3 = Point(8,8); p4 = Point(8,10);
+p5 = Point(3,1); p6 = Point(3,3); p7 = Point(4,1); p8 = Point(4,3);
+p9 = Point(6,6); p10 = Point(6,7); p11 = Point(7,6); p12 = Point(7,7);
+
 
 obs_set(1).x = [p1.x,p2.x,p3.x,p4.x];
 obs_set(1).y = [p1.y,p2.y,p3.y,p4.y];
 obs_set(2).x = [p5.x, p6.x, p7.x, p8.x];
 obs_set(2).y = [p5.y, p6.y, p7.y, p8.y];
+obs_set(3).x = [p9.x, p10.x, p11.x, p12.x];
+obs_set(3).y = [p9.y, p10.y, p11.y, p12.y];
 
 U = PQ2(); % Create priority queue 
 
