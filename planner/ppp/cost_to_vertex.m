@@ -1,7 +1,7 @@
 
 % Calculate the minimum polynomial cost from one vertex to another.
 % We need to discritize the state space of the end vertex
-function cost = cost_to_vertex(start_v, end_v, obs_set)
+function cost = cost_to_vertex(start_v, end_v)
 
 % Itereate through a discretization of the start vertex's state space
 deg = 0;
@@ -24,18 +24,6 @@ for(i=1:8)
     y = y_traj(t);
     plot(x,y);
     hold on;
-    
-    % Check intersection of objs set
-    for(i=1:length(obs_set))
-        obs = obs_set(i);
-        [in,on] = inpolygon(x,y, obs.x,obs.y);
-        if(numel(x(in)) > 0 ||...
-           numel(x(on)) > 0)
-           arc_length=inf;
-           break;
-        end
-    end
-
     
     if(arc_length < min_cost)
         min_cost = arc_length;
