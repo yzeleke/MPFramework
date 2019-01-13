@@ -18,6 +18,7 @@ classdef Vertex < matlab.mixin.Copyable
       num_succ
       succ_list
       priority
+      final_v 
    end
    methods
         function self = Vertex()

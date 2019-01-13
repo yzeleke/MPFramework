@@ -38,7 +38,8 @@ for(i=1:8)
     % Check final vertex velocity requirements are met
     % If they are not we won't consider the trajectory
     if(start_v == start_v.final_v) 
-        if(atand(start_v.yv/start_v.xv) ~= deg)
+        if(tan(start_v.yv/start_v.xy) == deg)
+
            arc_length=inf;
         else
             a = 1;

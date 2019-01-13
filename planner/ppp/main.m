@@ -3,17 +3,17 @@ clear all;
 
 % Settings
 
-x_max = 5; % Number of verticies
-y_max = 5;
+x_max = 10; % Number of verticies
+y_max = 10;
 
 
 % Goal and start vertices
 goal        = Vertex;
 goal.g      = inf;
 goal.rhs    = 0;
-goal.x      = 5;
-goal.y      = 5;
-goal.xv     = 1
+goal.x      = 10;
+goal.y      = 10;
+goal.xv     = 1;
 goal.yv     = 1;
 goal.xa     = 0;
 goal.ya     = 0;
@@ -27,6 +27,16 @@ start.xv    = 1;
 start.yv    = 1;
 start.xa    = 0;
 start.ya    = 0;
+start.final_v = start
+
+% Obstacle Set
+p1 = Point(7,7); p2 = Point(7,8); p3 = Point(8,8); p4 = Point(8,7);
+p5 = Point(4,7); p6 = Point(5,7); p7 = Point(5,8); p8 = Point(4,8);
+
+obs_set(1).x = [p1.x,p2.x,p3.x,p4.x];
+obs_set(1).y = [p1.y,p2.y,p3.y,p4.y];
+obs_set(2).x = [p5.x, p6.x, p7.x, p8.x];
+obs_set(2).y = [p5.y, p6.y, p7.y, p8.y];
 
 U = PQ2(); % Create priority queue 
 
@@ -49,6 +59,7 @@ for i=1:x_max    % Initialize all vertices
        v.xa = 0;
        v.ya = 0;
        
+
        if(i == goal.x && j == goal.y)
         v_list(i,j) = goal;   
        elseif(i == start.x && j == start.y)
@@ -101,9 +112,14 @@ for(i=1:x_max)
 end
 scatter(x,y,100, 'filled');
 hold on;
+for(i=1:length(obs_set))
+    plot(obs_set(i).x, obs_set(i).y);
+    hold on;
+end
 
 
 
+tic
 % Begin algorithm
 U.push(v_list(goal.x, goal.y), calc_key(goal, start));
 
@@ -111,10 +127,10 @@ while(U.min_key() < calc_key(start, start) || start.rhs ~= start.g)
     curr_v = U.pop();
     if(curr_v.g > curr_v.rhs)
         curr_v.g = curr_v.rhs;
-        update_verticies(curr_v, goal, U, start);
+        update_verticies(curr_v, goal, U, obs_set, start);
     else
         curr_v.g = inf;
-        %update_verticies(curr_v, goal, U, start);      
+        update_verticies(curr_v, goal, U, obs_set, start);      
     end
 end
 
@@ -132,12 +148,12 @@ visited = [goal]; % Keep track of the visited vertices
 while(curr_v ~= start)
     prev_v = Vertex;
     prev_v.g = Inf;
-    for(i=1:curr_v.num_pred)
-        v = curr_v.pred_list(i);
-        if(v.g < prev_v.g && sum(ismember(visited, v)==0))
-           if(v.next == curr_v)
-                prev_v = v;
-           end
+    for(i=1:curr_v.num_pred) % Iterate through curr_v's predecessor list
+        v = curr_v.pred_list(i); 
+        if(v.g < prev_v.g && sum(ismember(visited, v)==0)) % Choose the
+           if(v.next == curr_v)                            % predecessor 
+                prev_v = v;                                % with lowest g value 
+           end                                             % and make sure it has not been visited.
         end
     end
     visited = [visited prev_v];
@@ -148,8 +164,7 @@ while(curr_v ~= start)
     
     curr_v = prev_v;
 end
-
-
+toc
 
 
 
