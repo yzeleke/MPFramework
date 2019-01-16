@@ -36,6 +36,7 @@ function plotTrajectory(Planner, color_index)
     if color_index == 1
         plot(obstacle.X,obstacle.Y, 'rx', 'LineWidth',2);
         rectangle('Position',[obstacle.rrX,obstacle.rrY,obstacle.Length,obstacle.Width],'EdgeColor','r');
+        rectangle('Position',[obstacle.rrSafeX,obstacle.rrSafeY,obstacle.safeDistanceX + obstacle.Length,obstacle.safeDistanceY + obstacle.Width],'EdgeColor','m'); %safety region
         hold on
     
         plot(goal(1),goal(2), 'rx', 'LineWidth',2);

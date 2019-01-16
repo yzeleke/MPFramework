@@ -38,7 +38,7 @@ Wy = diag(ones(ny,1));
 Wy_ = diag(ones(2,1));
 Wdu = diag(ones(nmv,1))*0.1; 
 Wecr = 1e4;
-Wterm = 1e2; %terminal weight
+Wterm = 1e6; %terminal weight
 
 % calculate jerk...Jerk is nothing but the second derivative of the input
 % velocity
@@ -52,8 +52,9 @@ goal = yref(:,1:2);
 % Quadratic cost
 %f =  sum(jerk)^2;
 %f = sum(sum(((pose-goal)*Wy_).^2))+sum(sum((du*Wdu).^2))+Wecr*slack^2;%+sum(jerk)^2;
-f = Wterm*sum(sum(((pose-goal)*Wy_).^2))+sum(sum((du*Wdu).^2))+Wecr*slack^2;
+f = Wterm*sum(sum(((pose-goal)*Wy_).^2));%+sum(sum((du*Wdu).^2))+Wecr*slack^2;
 % Gradients
+
 
 
 

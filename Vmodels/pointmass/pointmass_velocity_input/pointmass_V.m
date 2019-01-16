@@ -40,11 +40,11 @@ function pointmass_V(Ts)
     upper_bound_y = laneWidth*lanes;
     lower_bound_y = 0;
     
-    upper_bound_speed_x =20;
+    upper_bound_speed_x =40;
     lower_bound_speed_x = 0;
     
-    upper_bound_speed_y = 2;
-    lower_bound_speed_y= -2;
+    upper_bound_speed_y = 5;
+    lower_bound_speed_y= -5;
     
     
 
