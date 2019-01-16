@@ -103,7 +103,7 @@ for(i=1:x_max)
 end
        
 
-% Create the lattice
+% Visuallt create the lattice
 % First gather all points
 x = [];
 y = [];

@@ -52,6 +52,9 @@ function run(Vmodel,Planner,Environment,options,SimTime, flag)
                 case 'astar'
                     AstarPlanner(SimTime);
                     plotResult(Planner);
+                case 'ppp'
+                    PolynomialPathPlanner(SimTime);
+                    plotResult(Planner);
                 otherwise
                     disp('Planner not found in database')
             
