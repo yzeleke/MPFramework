@@ -20,4 +20,7 @@ function PolynomialPathPlanner(Tsim)
     %load vehilce model
     load('model.mat');
 
+    ydata = []; % X, Y
+
+
 
