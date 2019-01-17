@@ -1,4 +1,4 @@
-classdef PQ2 < handle
+classdef ppp_PQ2 < handle
 
     properties
         nElements
@@ -6,7 +6,7 @@ classdef PQ2 < handle
     end
 
     methods
-        function self = PQ2()
+        function self = ppp_PQ2()
             self.nElements = 0;
             self.valueList = [];
         end

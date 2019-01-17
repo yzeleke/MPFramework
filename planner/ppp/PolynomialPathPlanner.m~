@@ -103,7 +103,7 @@ function PolynomialPathPlanner(Tsim)
                 nn{1} = [i+step_size_x, j];
                 nn{2} = [i+step_size_x, j+step_size_y];
                 nn{3} = [i, j+step_size_y];
-                nn{4} = [i-step_size_x,j+step_size_y]; 
+                nn{4} = [i-step_size_x,j-step_size_y]; 
                 nn{5} = [i-step_size_x, j];
                 nn{6} = [i-step_size_x, j-step_size_y];
                 nn{7} = [i, j-step_size_y];
