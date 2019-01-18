@@ -26,7 +26,7 @@ function PolynomialPathPlanner(Tsim)
     x_max = 100;
     y_max = 100;
 
-    step_size_x = 2;
+    step_size_x = 1;
     step_size_y = 1;
 
 
@@ -196,10 +196,15 @@ while(curr_v ~= start)
         end
     end
     visited = [visited prev_v];
-    %x_traj = [x_traj prev_v.x_traj(t)];
-    %y_traj = [y_traj prev_v.y_traj(t)];
-    %scatter(x_traj,y_traj,20,'filled');
-    %hold on;
+    
+    x_traj = [x_traj prev_v.x_traj(t)];
+    y_traj = [y_traj prev_v.y_traj(t)];
+    scatter(x_traj,y_traj,20,'filled');
+    hold on;
+    
+    if(~ismember(v_list, prev_v))
+        a = 1;
+    end
     
     curr_v = prev_v;
 end

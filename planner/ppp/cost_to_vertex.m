@@ -47,7 +47,7 @@ for(i=1:8)
     end
 
     
-    if(arc_length < min_cost)
+    if(arc_length < min_cost && isempty(start_v.next))
         min_cost = arc_length;
         
         % Save the trajectories for future use

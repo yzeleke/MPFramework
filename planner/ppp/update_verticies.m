@@ -3,7 +3,7 @@ function update_verticies(vertex, goal, U, obs_set, start_v)
         pred_v = vertex.pred_list(i);
         next_v = Vertex();
         if(~isempty(pred_v.x)) % Only process if predecessor vertex exists
-            if(pred_v.x ~= goal.x &&...
+            if(pred_v.x ~= goal.x ||...
                pred_v.y ~= goal.y)
                 minimize_rhs(pred_v, obs_set); 
             end
