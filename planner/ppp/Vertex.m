@@ -23,7 +23,7 @@ classdef Vertex < matlab.mixin.Copyable
    methods
         function self = Vertex()
             self.path_time = 1;
-            self.time_res  = 0.001;
+            self.time_res  = 0.1;
             
         end
    end

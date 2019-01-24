@@ -19,7 +19,7 @@ function PolynomialPathPlanner(Tsim)
     load('environment.mat');
     %load vehilce model
     load('model.mat');
-
+   
 
     % Number of vertices
 
@@ -197,7 +197,7 @@ end
 toc
 
 ydata = [x_traj; y_traj]; 
-save('results/resultsPPP.mat')
+save('results/resultPPP.mat')
 
 end
 

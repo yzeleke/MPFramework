@@ -18,7 +18,7 @@ function plotResult(Planner)
     %% The simulation results are identical to those using mpcmove.
     load('init.mat');
     load('environment.mat');
-    
+        
      planner_video = 'N/A';
      switch lower(Planner)
         case 'mpc'
@@ -31,6 +31,9 @@ function plotResult(Planner)
             planner_video = 'astar';
             load('results/resultAstar.mat');
             ydata = fliplr(ydata);
+         case 'ppp'
+             planner_video = 'ppp';
+             load('results/resultPPP.mat');
         otherwise
             
     end
