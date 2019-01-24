@@ -26,7 +26,7 @@ function PolynomialPathPlanner(Tsim)
     x_max = 100;
     y_max = 100;
 
-    step_size_x = 1;
+    step_size_x = 10;
     step_size_y = 1;
 
 
@@ -182,32 +182,18 @@ path_time = Vertex().path_time;
 t = 0:time_res:path_time;
 
 
-curr_v = target;
-visited = [target]; % Keep track of the visited vertices
-while(curr_v ~= start)
-    prev_v = Vertex;
-    prev_v.g = Inf;
-    for(i=1:curr_v.num_pred) % Iterate through curr_v's predecessor list
-        v = curr_v.pred_list(i); 
-        if(v.g < prev_v.g && sum(ismember(visited, v)==0)) % Choose the
-           if(v.next == curr_v)                            % predecessor 
-                prev_v = v;                                % with lowest g value 
-           end                                             % and make sure it has not been visited.
-        end
-    end
-    visited = [visited prev_v];
+curr_v = start;
+while(curr_v ~= target)
+     x_traj = [x_traj curr_v.x_traj(t)];
+     y_traj = [y_traj curr_v.y_traj(t)];
+     scatter(x_traj,y_traj,20,'filled');
+     hold on;
+     
+     curr_v = curr_v.next;
     
-    x_traj = [x_traj prev_v.x_traj(t)];
-    y_traj = [y_traj prev_v.y_traj(t)];
-    scatter(x_traj,y_traj,20,'filled');
-    hold on;
-    
-    if(~ismember(v_list, prev_v))
-        a = 1;
-    end
-    
-    curr_v = prev_v;
 end
+
+
 toc
 
 ydata = [x_traj; y_traj]; 
