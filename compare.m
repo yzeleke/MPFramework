@@ -38,6 +38,11 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
                 AstarPlanner(SimTime);
                 time_array(timer_index) = toc(P3_start)
                 timer_index = timer_index + 1;
+            case 'ppp'
+                P4_start = tic();
+                PolynomialPathPlanner(SimTime);
+                time_array(timer_index) = toc(P4_start)
+                timer_index = timer_index + 1;
             otherwise
                 disp('Planner not found in database')
         end

@@ -24,15 +24,15 @@ function PolynomialPathPlanner(Tsim)
     % Number of vertices
 
     x_max = 100;
-    y_max = 100;
+    y_max = 8;
 
     step_size_x = 10;
     step_size_y = 1;
 
 
     % Setup obstacles
-    obs_set(1).x = [obstacle.flSafeX, obstacle.frSafeX, obstacle.rlSafeX, obstacle.rrSafeX];
-    obs_set(1).y = [obstacle.flSafeY, obstacle.frSafeY, obstacle.rlSafeY, obstacle.rrSafeY];
+    obs_set(1).x = [obstacle.flSafeX, obstacle.frSafeX, obstacle.rrSafeX, obstacle.rlSafeX];
+    obs_set(1).y = [obstacle.flSafeY, obstacle.frSafeY, obstacle.rrSafeY, obstacle.rlSafeY];
 
      
     % Goal and start vertices
