@@ -20,10 +20,10 @@ function pointmass_V(Ts)
    
     % inital conditions
     model = 'pointmass_v';
-    x0 = [5; 7]; 
+    x0 = [10; 4]; 
 
     %set target state
-    goal = [90; 7]; 
+    goal = [100; 4]; 
 
     %initial input 
     %input takes jerk in x and jerk in y
