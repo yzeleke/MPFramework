@@ -4,6 +4,8 @@ function AstarPlanner(simT)
      load('model.mat');
     
     disp("hi");
+    
+    astar_start = tic();
     Tsim = simT; 
     startX = x0(1); %+40
     startY = x0(2);
@@ -29,7 +31,7 @@ function AstarPlanner(simT)
         xMax = 100;
     end
     
-    fprintf("Target is (%d, %d)\n", targetX, targetY);
+    %fprintf("Target is (%d, %d)\n", targetX, targetY);
 
     pq = PQ2(); %priority_queue<State, vector<State>, Compare> pq;
     startCell = mapCell(0, 0, 0); % 	start.cost3d=0;
@@ -37,7 +39,7 @@ function AstarPlanner(simT)
     startCell.y = startY;
     startCell.theta = 0;
  	push(pq, startCell, 0);
-    fprintf("start (%f, %f), obstacle (%f, %f)\n", startX, startY, obstacle.X, obstacle.Y);
+    %fprintf("start (%f, %f), obstacle (%f, %f)\n", startX, startY, obstacle.X, obstacle.Y);
     
     previous = repmat(mapCell(10000, 0, 0), xMax, yMax, 360);
 
@@ -117,6 +119,7 @@ function AstarPlanner(simT)
             end
         end
     end
+    astar_time = toc(astar_start);
     ydata = [x1data; y1data];
     save('results/resultAstar.mat');
     fprintf("pq empty\n");

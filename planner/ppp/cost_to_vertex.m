@@ -21,8 +21,8 @@ for(i=1:8)
     t = 0:Vertex().time_res:Vertex().path_time;
     x = x_traj(t);
     y = y_traj(t);
-    plot(x,y);
-    hold on;
+   % plot(x,y);
+    %hold on;
     
     % Check intersection of objs set
     for(i=1:length(obs_set))

@@ -25,8 +25,9 @@ function distanceMetric(Planner, color_index)
             load('results/resultRRT.mat');
         case 'astar'
             load('results/resultAstar.mat');
-        otherwise
-            
+        case 'ppp'
+            load('results/resultPPP.mat');
+        otherwise    
     end
     
     hold on

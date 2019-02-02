@@ -38,6 +38,8 @@ function MpcPlanner(Tsim)
     % MPC Design at the Nominal Operating Point
     % Design a model predictive controller that can make the ego car maintain
     % a desired velocity and stay in the middle of the center lane.
+    
+    mpc_start = tic();
     status = mpcverbosity('off');
     mpcobj = mpc(plant);
     
@@ -201,6 +203,7 @@ function MpcPlanner(Tsim)
         udata = [udata u];
     end
     
+    mpc_time = toc(mpc_start);
     data = 'results/resultMPC.mat';
     save(data);
 end

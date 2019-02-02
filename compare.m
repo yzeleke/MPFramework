@@ -24,24 +24,25 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
     for i=1:1:numel(Planner)
         switch (Planner(i))
             case 'mpc'
-                P1_start = tic();
                 MpcPlanner(SimTime);
-                time_array(timer_index) = toc(P1_start)
+                load('results/resultMPC.mat');
+                time_array(timer_index) = mpc_time;
                 timer_index = timer_index + 1;
             case 'rrt'
-                P2_start = tic();
                 RRTPlanner(SimTime);
-                time_array(timer_index) = toc(P2_start)
+                load('results/resultRRT.mat');
+                time_array(timer_index) = rrt_time;
                 timer_index = timer_index + 1;
             case 'astar'
-                P3_start = tic();
+                %P3_start = tic();
                 AstarPlanner(SimTime);
-                time_array(timer_index) = toc(P3_start)
+                load('results/resultAstar.mat');
+                time_array(timer_index) = astar_time;
                 timer_index = timer_index + 1;
             case 'ppp'
-                P4_start = tic();
                 PolynomialPathPlanner(SimTime);
-                time_array(timer_index) = toc(P4_start)
+                load('results/resultPPP.mat');
+                time_array(timer_index) = ppp_time;
                 timer_index = timer_index + 1;
             otherwise
                 disp('Planner not found in database')
@@ -53,7 +54,7 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
             switch (metrics(i))
                 case "path"
                     Legend = ["Obstacle", "Target"];
-                    figure();hold on
+                    figure(1);hold on
                     for j=1:1:numel(Planner)
                         plotTrajectory(Planner(j), j);
                     end
@@ -64,23 +65,28 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
                     
                     
                 case "time"
-                    figure(2)
-                    Legend = Planner;
+                    figure(2);hold on
+                    names = [""]
+                    for j=1:1:numel(Planner)
+                        names(j) = Planner(j);
+                    end
+                    %names = {Planner(1),'mpc','astar','ppp'};
                     b_graph = bar(time_array)
                     color = {[1 0 0] [0 1 0] [0 0 1] [0 1 1]};
                     b_graph.FaceColor = 'flat';
                     for j=1:1:numel(Planner)
                         b_graph.CData(j,:) = cell2mat(color(j));
+                        %hold on
                     end
                     text(1:length(time_array),time_array,num2str(time_array'),'vert','bottom','horiz','center'); 
                     %text(1:length(Planner),Planner,Planner','vert','top','horiz','center');
                     ylabel('Time(s)')
                     xlabel('Planner')
-                    legend(b_graph, Legend)
+                    legend(b_graph, names)
                     legend show
                     title('Execution time comparision')
                     box off
-                    
+                    hold off
                     
                 case "distance" %Calculate the euclideans distance
                     Legend = Planner;

@@ -7,6 +7,7 @@ load('environment.mat');
     %load vehilce model
 load('model.mat');
 
+rrt_start = tic();
 Tsim = simT;
 %map=im2bw(imread('map3.bmp')); % input map read from a bmp file. for new maps write the file name here
 % source=[10 10]; % source position in Y, X format
@@ -81,6 +82,9 @@ fprintf('processing time=%d \nPath Length=%d \n\n', toc,pathLength);
 %imshow(map);%rectangle('position',[1 1 size(map)-1],'edgecolor','k');
 %line(path(:,2),path(:,1));
 ydata = remap(path,resolution_x, resolution_y, lower_bound_x, lower_bound_y, upper_bound_x, upper_bound_y);
+
+rrt_time = toc(rrt_start);
 ydata = ydata.'; % You need to transpose it so that plotResult function can work..
 %ydata = fliplr(ydata);
+
 save('results/resultRRT.mat');

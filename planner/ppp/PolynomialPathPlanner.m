@@ -20,7 +20,7 @@ function PolynomialPathPlanner(Tsim)
     %load vehilce model
     load('model.mat');
    
-
+    ppp_start = tic();
     % Number of vertices
 
     x_max = 100;
@@ -186,14 +186,14 @@ curr_v = start;
 while(curr_v ~= target)
      x_traj = [x_traj curr_v.x_traj(t)];
      y_traj = [y_traj curr_v.y_traj(t)];
-     scatter(x_traj,y_traj,20,'filled');
-     hold on;
+     %scatter(x_traj,y_traj,20,'filled');
+     %hold on;
      
      curr_v = curr_v.next;
     
 end
 
-
+ppp_time = toc(ppp_start);
 toc
 
 ydata = [x_traj; y_traj]; 
