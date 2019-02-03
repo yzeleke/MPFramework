@@ -81,10 +81,13 @@ function compare(Vmodel,Planner,Environment,options,SimTime, metrics)
                     text(1:length(time_array),time_array,num2str(time_array'),'vert','bottom','horiz','center'); 
                     %text(1:length(Planner),Planner,Planner','vert','top','horiz','center');
                     ylabel('Time(s)')
-                    xlabel('Planner')
-                    legend(b_graph, names)
-                    legend show
-                    title('Execution time comparision')
+                    %xlabel('Planner')
+                    xticks([1 2 3 4])
+                    %xticklabels(Planner)
+                    xticklabels({'RRT', 'A*', 'Polynomial', 'MPC'})
+                    %legend(b_graph, names)
+                    %legend show
+                    title('Computation Time comparision')
                     box off
                     hold off
                     
