@@ -21,14 +21,15 @@ function AstarPlanner(simT)
 %     PRIORITY_MOVEMENT = 5;
     
     %step size
-    d=1;
+    xStep=5;
+    yStep=1;
 
     xMax = 100;%upper_bound_x;
     yMax = upper_bound_y;
     
     %prevents x form begin inf in testing
-    if(xMax > 100)
-        xMax = 100;
+    if(xMax > 1000)
+        xMax = 1000;
     end
     
     %fprintf("Target is (%d, %d)\n", targetX, targetY);
@@ -75,7 +76,7 @@ function AstarPlanner(simT)
         for stateCount = 1:1:3
 %             beta=d*tan(alpha*pi/180)/BOT_L;
             if(stateCount == 2)%abs(beta)<0.001)
-                next(stateCount).x=current.x+d;
+                next(stateCount).x=current.x+xStep;
 %                 next(stateCount).x=current.x+d*cos(current.theta*2.0*pi/Theta);
                 %fprintf("updated %f", next(stateCount).x);
                 next(stateCount).y=current.y;
@@ -86,7 +87,7 @@ function AstarPlanner(simT)
 %                 r=BOT_L/tan(alpha*pi/180);
                 next(stateCount).x=current.x;
 %                 next(stateCount).x=current.x+r*sin(current.theta*2.0*pi/Theta+beta)-r*sin(current.theta*2.0*pi/Theta);
-                next(stateCount).y=current.y+(stateCount-2);
+                next(stateCount).y=current.y+(stateCount-2)*yStep;
                 next(stateCount).theta = stateCount;
 %                 next(stateCount).y=current.y-r*cos(current.theta*2.0*pi/Theta+beta)+r*cos(current.theta*2.0*pi/Theta);
 %                 if(current.theta + beta*180/pi/Theta_Res>0)
@@ -121,6 +122,6 @@ function AstarPlanner(simT)
     end
     astar_time = toc(astar_start);
     ydata = [x1data; y1data];
-    save('results/resultAstar.mat');
+    save('results/resultAstar.mat', 'ydata', 'astar_time', 'astar_start', 'goal');
     fprintf("pq empty\n");
 end
